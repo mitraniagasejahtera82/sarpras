@@ -14,9 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # =====================================
 SECRET_KEY = '864v&tk8tv!axjt5%*y$3x4rw$xb70lllxbtewmy=wjhzp'
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = ['sarpras.onrender.com']
 
 
 # =====================================
@@ -110,7 +110,7 @@ USE_TZ = True
 # STATIC FILES (CSS, JS)
 # =====================================
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
