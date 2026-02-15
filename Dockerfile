@@ -1,11 +1,9 @@
 # Base image
 FROM python:3.11-slim
 
-# Set environment
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set work directory
 WORKDIR /app
 
 # Install dependencies
@@ -19,8 +17,7 @@ COPY . /app/
 # Collect static
 RUN python manage.py collectstatic --noinput
 
-# Expose port
-EXPOSE 10000
+EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:10000"]
+# Auto migrate lalu jalankan gunicorn
+CMD ["sh", "-c", "python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:10000"]
