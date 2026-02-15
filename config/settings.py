@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # =====================================
 # SECURITY
 # =====================================
-SECRET_KEY = 'django-insecure-ganti-dengan-secret-sendiri'
+SECRET_KEY = 'hx)=864v&tk8tv!axjt5%*y$3x4rw$xb70lllxbtewmy=wjhzp'
 
 DEBUG = True
 
