@@ -1,0 +1,59 @@
+{% extends 'sarpras/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 800px;">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="mb-4">Tambah Data Jalan / Irigasi / Jaringan</h4>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Kode Barang</label>
+                    <input type="text" name="kode_barang" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Nama Jalan / Jaringan</label>
+                    <input type="text" name="nama" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Panjang (meter)</label>
+                    <input type="number" step="0.01" name="panjang" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Lokasi</label>
+                    <input type="text" name="lokasi" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kondisi</label>
+                    <input type="text" name="kondisi" class="form-control"
+                           placeholder="Baik / Rusak Ringan / Rusak Berat">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Tahun Perolehan</label>
+                    <input type="number" name="tahun_perolehan" class="form-control">
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        Simpan
+                    </button>
+                    <a href="{% url 'jalan_list' %}" class="btn btn-secondary">
+                        Batal
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

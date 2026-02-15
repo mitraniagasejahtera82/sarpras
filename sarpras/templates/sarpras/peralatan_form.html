@@ -1,0 +1,144 @@
+{% extends 'sarpras/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 720px;">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <!-- JUDUL -->
+            <h4 class="mb-4">
+                {% if edit %}
+                    ✏️ Edit Data Peralatan
+                {% else %}
+                    ➕ Tambah Data Peralatan
+                {% endif %}
+            </h4>
+
+            <!-- FORM -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- KODE BARANG -->
+                <div class="mb-3">
+                    <label class="form-label">Kode Barang</label>
+                    <input type="text"
+                           name="kode_barang"
+                           class="form-control"
+                           value="{{ data.kode_barang|default:'' }}"
+                           required>
+                </div>
+
+                <!-- NAMA -->
+                <div class="mb-3">
+                    <label class="form-label">Nama Peralatan</label>
+                    <input type="text"
+                           name="nama"
+                           class="form-control"
+                           value="{{ data.nama|default:'' }}"
+                           required>
+                </div>
+
+                <!-- JUMLAH -->
+                <div class="mb-3">
+                    <label class="form-label">Jumlah</label>
+                    <input type="number"
+                           name="jumlah"
+                           class="form-control"
+                           value="{{ data.jumlah|default:'' }}"
+                           required>
+                </div>
+
+                <!-- KONDISI -->
+                <div class="mb-3">
+                    <label class="form-label">Kondisi</label>
+                    <input type="text"
+                           name="kondisi"
+                           class="form-control"
+                           placeholder="Baik / Rusak Ringan / Rusak Berat"
+                           value="{{ data.kondisi|default:'' }}"
+                           required>
+                </div>
+
+                <!-- TAHUN -->
+                <div class="mb-3">
+                    <label class="form-label">Tahun Perolehan</label>
+                    <input type="number"
+                           name="tahun_perolehan"
+                           class="form-control"
+                           value="{{ data.tahun_perolehan|default:'' }}"
+                           required>
+                </div>
+
+                <!-- GEDUNG -->
+                <div class="mb-3">
+                    <label class="form-label">Gedung</label>
+                    <select name="gedung" class="form-control" required>
+                        <option value="">-- Pilih Gedung --</option>
+                        {% for g in gedungs %}
+                        <option value="{{ g.id }}"
+                            {% if data.ruangan and data.ruangan.gedung.id == g.id %}
+                                selected
+                            {% endif %}>
+                            {{ g.nama }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- RUANGAN -->
+                <div class="mb-3">
+                    <label class="form-label">Ruangan</label>
+                    <select name="ruangan" class="form-control" required>
+                        <option value="">-- Pilih Ruangan --</option>
+                        {% for r in ruangans %}
+                        <option value="{{ r.id }}"
+                            {% if data.ruangan.id == r.id %}
+                                selected
+                            {% endif %}>
+                            {{ r.nama }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- GAMBAR -->
+                <div class="mb-4">
+                    <label class="form-label">Foto Peralatan</label>
+                    <input type="file"
+                           name="gambar"
+                           class="form-control">
+
+                    {% if edit and data.gambar %}
+                    <div class="mt-2">
+                        <small class="text-muted">Gambar saat ini:</small><br>
+                        <img src="{{ data.gambar.url }}"
+                             height="90"
+                             class="rounded shadow-sm">
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- TOMBOL -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        💾 Simpan
+                    </button>
+                    <a href="{% url 'peralatan_list' %}" class="btn btn-secondary">
+                        Batal
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer text-center mt-5 mb-3 text-muted">
+    © 2026 – Sistem Sarana & Prasarana<br>
+    Dibuat oleh <strong>Zulkhaidir</strong>
+</footer>
+{% endblock %}

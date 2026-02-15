@@ -1,0 +1,126 @@
+{% extends "sarpras/base.html" %}
+
+{% block content %}
+<div class="container my-4">
+
+    <!-- Judul -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h4 class="fw-bold mb-0">Data Peminjaman Peralatan</h4>
+            <small class="text-muted">
+                Manajemen peminjaman dan pengembalian peralatan
+            </small>
+        </div>
+
+        <a href="{% url 'peminjaman_create' %}" class="btn btn-primary">
+            + Tambah Peminjaman
+        </a>
+    </div>
+
+    <!-- REALTIME SEARCH -->
+    <div class="mb-3">
+        <div class="input-group">
+            <span class="input-group-text bg-white">🔍</span>
+            <input type="text"
+                   id="searchInput"
+                   class="form-control"
+                   placeholder="Cari barang, peminjam, status, atau tanggal...">
+        </div>
+    </div>
+
+    <!-- Tabel -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>Barang</th>
+                        <th>Peminjam</th>
+                        <th>Jumlah</th>
+                        <th>Tgl Pinjam</th>
+                        <th>Tgl Kembali</th>
+                        <th>Status</th>
+                        <th width="120">Aksi</th>
+                    </tr>
+                </thead>
+
+                <!-- 🔥 WAJIB ADA ID -->
+                <tbody id="tableBody">
+                    {% for p in data %}
+                    <tr>
+                        <td>{{ p.barang.nama }}</td>
+                        <td>{{ p.peminjam }}</td>
+                        <td class="text-center">{{ p.jumlah_pinjam }}</td>
+                        <td class="text-center">
+                            {{ p.tanggal_pinjam|date:"d M Y" }}
+                        </td>
+                        <td class="text-center">
+                            {% if p.tanggal_kembali %}
+                                {{ p.tanggal_kembali|date:"d M Y" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if p.status|lower == "dipinjam" %}
+                                <span class="badge bg-warning text-dark">
+                                    Dipinjam
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success">
+                                    Dikembalikan
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center text-nowrap">
+                            {% if p.status|lower == "dipinjam" %}
+                                <a href="{% url 'cetak_surat_peminjaman' p.id %}"
+                                   target="_blank"
+                                   class="btn btn-sm btn-outline-primary me-1"
+                                   title="Cetak Surat">
+                                   🧾
+                                </a>
+
+                                <a href="{% url 'peminjaman_kembali' p.id %}"
+                                   class="btn btn-sm btn-success"
+                                   title="Konfirmasi">
+                                   ✓
+                                </a>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-3">
+                            Belum ada data peminjaman
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- SCRIPT REALTIME SEARCH -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("keyup", function () {
+        const value = this.value.toLowerCase();
+        const rows = document.querySelectorAll("#tableBody tr");
+
+        rows.forEach(function (row) {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(value) ? "" : "none";
+        });
+    });
+});
+</script>
+
+{% endblock %}

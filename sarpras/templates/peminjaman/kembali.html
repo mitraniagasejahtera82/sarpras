@@ -1,0 +1,67 @@
+{% extends "sarpras/base.html" %}
+
+{% block content %}
+<div class="container my-4">
+
+    <!-- Judul -->
+    <div class="mb-3">
+        <h4 class="fw-bold mb-0">Pengembalian Peralatan</h4>
+        <small class="text-muted">
+            Konfirmasi pengembalian peralatan KIB B
+        </small>
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-bordered mb-4">
+                <tr>
+                    <th width="30%">Peralatan</th>
+                    <td>{{ p.barang }}</td>
+                </tr>
+                <tr>
+                    <th>Peminjam</th>
+                    <td>{{ p.peminjam }}</td>
+                </tr>
+                <tr>
+                    <th>Jumlah Dipinjam</th>
+                    <td>{{ p.jumlah_pinjam }}</td>
+                </tr>
+                <tr>
+                    <th>Tanggal Pinjam</th>
+                    <td>{{ p.tanggal_pinjam|date:"d M Y" }}</td>
+                </tr>
+            </table>
+
+            <div class="alert alert-warning">
+                Pastikan peralatan sudah benar-benar diterima kembali sebelum menekan
+                <strong>Konfirmasi Pengembalian</strong>.
+            </div>
+
+            <!-- 🔒 FORM DIKUNCI -->
+            <form method="post"
+                  action="{% url 'peminjaman_kembali' p.id %}"
+                  onsubmit="kembaliBtn.disabled=true; kembaliBtn.innerText='Memproses…';">
+                {% csrf_token %}
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{% url 'peminjaman_list' %}" class="btn btn-secondary">
+                        Batal
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-success"
+                            id="kembaliBtn"
+                            name="kembaliBtn"
+                            onclick="return confirm('Yakin peralatan sudah dikembalikan?')">
+                        ✓ Konfirmasi Pengembalian
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

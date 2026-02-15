@@ -1,0 +1,99 @@
+{% extends 'sarpras/base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h3 class="fw-bold mb-1">Data Ruangan</h3>
+            <small class="text-muted">
+                Daftar seluruh ruangan dan penanggung jawab
+            </small>
+        </div>
+
+        <a href="{% url 'ruangan_tambah' %}" class="btn btn-primary px-3">
+            ➕ Tambah Ruangan
+        </a>
+    </div>
+
+
+    <!-- CARD TABLE -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light text-center">
+                        <tr>
+                            <th>Gedung</th>
+                            <th style="width:120px;">Kode</th>
+                            <th>Nama Ruangan</th>
+                            <th>Penanggung Jawab</th>
+                            <th width="170">Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for r in data %}
+                        <tr>
+                            <td>{{ r.gedung.nama }}</td>
+
+                            <td class="text-center fw-semibold">
+                                {{ r.kode }}
+                            </td>
+
+                            <td class="fw-semibold">
+                                {{ r.nama }}
+                            </td>
+
+                            <td>{{ r.penanggung_jawab }}</td>
+
+                            <td class="text-center">
+
+                                <!-- Edit -->
+                                <a href="{% url 'ruangan_edit' r.id %}"
+                                   class="btn btn-sm btn-outline-warning me-1"
+                                   title="Edit">
+                                    ✏
+                                </a>
+
+                                <!-- Hapus -->
+                                <a href="{% url 'ruangan_hapus' r.id %}"
+                                   class="btn btn-sm btn-outline-danger me-1"
+                                   title="Hapus"
+                                   onclick="return confirm('Yakin hapus?')">
+                                   🗑
+                                </a>
+
+                                <!-- Cetak KIR -->
+                                <a href="{% url 'cetak_kir' r.id %}"
+                                   target="_blank"
+                                   class="btn btn-sm btn-outline-success"
+                                   title="Cetak KIR">
+                                    <i class="bi bi-printer"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+                                <div class="text-muted">
+                                    🏢 Belum ada data ruangan
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

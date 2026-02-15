@@ -1,0 +1,91 @@
+{% extends "sarpras/base.html" %}
+
+{% block content %}
+<div class="container my-4">
+
+    <!-- Judul -->
+    <div class="mb-3">
+        <h4 class="fw-bold mb-0">Tambah Peminjaman Peralatan</h4>
+        <small class="text-muted">
+            Form peminjaman peralatan KIB B
+        </small>
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <!-- ⚠️ ACTION WAJIB + ANTI DOUBLE SUBMIT -->
+            <form method="post" action="{% url 'peminjaman_create' %}" onsubmit="submitBtn.disabled=true; submitBtn.innerText='Menyimpan…';">
+                {% csrf_token %}
+
+                <!-- Pilih Barang -->
+                <div class="mb-3">
+                    <label class="form-label">Peralatan</label>
+                    <select name="barang" class="form-select" required>
+                        <option value="">-- Pilih Peralatan --</option>
+                        {% for b in barang %}
+                        <option value="{{ b.id }}">
+                            [ID {{ b.id }}] {{ b.kode_barang }} - {{ b.nama }} (stok: {{ b.jumlah }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Peminjam -->
+                <div class="mb-3">
+                    <label class="form-label">Nama Peminjam</label>
+                    <input type="text"
+                           name="peminjam"
+                           class="form-control"
+                           placeholder="Nama peminjam"
+                           required>
+                </div>
+
+                <!-- Jumlah -->
+                <div class="mb-3">
+                    <label class="form-label">Jumlah Pinjam</label>
+                    <input type="number"
+                           name="jumlah_pinjam"
+                           class="form-control"
+                           min="1"
+                           required>
+                </div>
+
+                <!-- Tanggal Kembali -->
+                <div class="mb-3">
+                    <label class="form-label">Tanggal Kembali</label>
+                    <input type="date"
+                           name="tanggal_kembali"
+                           class="form-control">
+                </div>
+
+                <!-- Tombol -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{% url 'peminjaman_list' %}"
+                       class="btn btn-secondary">
+                        Batal
+                    </a>
+
+                    <!-- 🔒 NAMA BUTTON PENTING -->
+                    <button type="submit"
+                            class="btn btn-primary"
+                            name="submitBtn"
+                            id="submitBtn">
+                        Simpan Peminjaman
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "sarpras/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Daftar Aset per Ruangan</h2>
+
+    {% for gedung in gedungs %}
+    <div class="gedung-card mb-3 shadow-sm rounded">
+
+        <!-- HEADER GEDUNG -->
+        <div class="gedung-header d-flex justify-content-between align-items-center"
+             onclick="toggleGedung('gedung{{ gedung.id }}')">
+
+            <span class="fw-semibold">
+                {{ gedung.nama }}
+            </span>
+
+            <span class="arrow" id="arrow{{ gedung.id }}">▼</span>
+        </div>
+
+        <!-- ISI GEDUNG -->
+        <div class="gedung-body" id="gedung{{ gedung.id }}" style="display: none;">
+
+            {% if gedung.ruangan.all %}
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width:200px;">Ruangan</th>
+                                <th>Peralatan</th>
+                                <th style="width:120px;">Total Item</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for ruang in gedung.ruangan.all %}
+                            <tr>
+                                <td class="fw-semibold">
+                                    {{ ruang.nama }}
+                                </td>
+
+                                <td>
+                                    {% if ruang.peralatan.all %}
+                                        {% for item in ruang.peralatan.all %}
+                                            • {{ item.nama }} ({{ item.jumlah }} unit)<br>
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="text-muted">
+                                            Belum ada peralatan
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-center">
+                                    {{ ruang.peralatan.all|length }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="p-3 text-muted">
+                    Belum ada ruangan.
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+<style>
+/* ================= GEDUNG CARD ================= */
+
+.gedung-header {
+    background: #2f3833;   /* warna hijau tema */
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.gedung-header:hover {
+    background: #0f3d2e;
+}
+
+.gedung-body {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}
+
+.gedung-card {
+    overflow: hidden;
+}
+
+.arrow {
+    font-size: 14px;
+}
+</style>
+
+
+<script>
+function toggleGedung(id) {
+    const body = document.getElementById(id);
+    const arrow = document.getElementById("arrow" + id.replace("gedung",""));
+
+    if (body.style.display === "none") {
+        body.style.display = "block";
+        arrow.innerHTML = "▲";
+    } else {
+        body.style.display = "none";
+        arrow.innerHTML = "▼";
+    }
+}
+</script>
+
+{% endblock %}

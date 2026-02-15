@@ -1,0 +1,75 @@
+{% extends "sarpras/base_pdf.html" %}
+
+{% block content %}
+
+<!-- ================= JUDUL ================= -->
+<div class="judul">LAPORAN INVENTARIS BARANG</div>
+<div class="subjudul">KIB D – JALAN, IRIGASI DAN JARINGAN</div>
+<div class="tahun">Tahun {{ tahun }}</div>
+
+<div style="margin-bottom:8px; font-size:10px;">
+    Tanggal Cetak : {{ tanggal|date:"d F Y H:i" }}<br>
+    Total Data : {{ total_jalan }}<br>
+    Total Panjang : {{ total_panjang }}
+</div>
+
+<!-- ================= TABEL DATA ================= -->
+<table>
+    <thead>
+        <tr>
+            <th width="4%">No</th>
+            <th width="13%">Kode Barang</th>
+            <th>Nama Jalan</th>
+            <th width="15%">Lokasi</th>
+            <th width="12%">Panjang</th>
+            <th width="12%">Kondisi</th>
+            <th width="9%">Tahun</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for j in data %}
+        <tr>
+            <td class="center">{{ forloop.counter }}</td>
+            <td class="center">{{ j.kode_barang }}</td>
+            <td>{{ j.nama }}</td>
+            <td>{{ j.lokasi }}</td>
+            <td class="center">{{ j.panjang }}</td>
+            <td class="center">{{ j.kondisi }}</td>
+            <td class="center">{{ j.tahun_perolehan }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="center">
+                Tidak ada data jalan
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+<!-- ================= PENUTUP ================= -->
+<table class="no-border">
+    <tr>
+        <td width="40%" class="center" valign="top">
+            <strong>QR VERIFIKASI</strong><br>
+            <img src="data:image/png;base64,{{ qr_code }}" width="105">
+            <div class="footer-text">
+                Dokumen ini dicetak melalui<br>
+                Sistem SARPRAS Sekolah
+            </div>
+        </td>
+
+        <td width="60%" class="center" valign="top">
+            {{ lokasi }}, {{ tanggal|date:"d F Y" }}<br>
+            Mengetahui,<br>
+            Kepala Sekolah
+            <br><br><br>
+            <strong>Nama Kepala Sekolah</strong><br>
+            NIP. 198209042009031002
+        </td>
+    </tr>
+</table>
+
+{% endblock %}

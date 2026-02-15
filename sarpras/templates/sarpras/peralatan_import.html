@@ -1,0 +1,37 @@
+{% extends 'sarpras/base.html' %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 700px;">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="mb-3">📥 Import Peralatan (Excel)</h4>
+
+            <div class="alert alert-info">
+                Format file: <strong>.xlsx</strong><br>
+                Kolom wajib: kode_barang, nama, jumlah, kondisi, tahun_perolehan
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">File Excel</label>
+                    <input type="file" name="file" class="form-control" accept=".xlsx" required>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        Import
+                    </button>
+                    <a href="{% url 'peralatan_list' %}" class="btn btn-secondary">
+                        Batal
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

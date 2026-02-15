@@ -1,0 +1,85 @@
+{% extends 'sarpras/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 700px;">
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                {% if edit %}
+                    Edit Data Buku Perpustakaan
+                {% else %}
+                    Tambah Data Buku Perpustakaan
+                {% endif %}
+            </h4>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Kode Buku</label>
+                    <input type="text" name="kode_barang" class="form-control"
+                           value="{{ buku.kode_barang|default:'' }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Judul Buku</label>
+                    <input type="text" name="judul" class="form-control"
+                           value="{{ buku.judul|default:'' }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pengarang</label>
+                    <input type="text" name="pengarang" class="form-control"
+                           value="{{ buku.pengarang|default:'' }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Jumlah</label>
+                    <input type="number" name="jumlah" class="form-control"
+                           value="{{ buku.jumlah|default:0 }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kondisi</label>
+                    <select name="kondisi" class="form-control">
+                        <option value="Baik" {% if buku.kondisi == 'Baik' %}selected{% endif %}>Baik</option>
+                        <option value="Rusak Ringan" {% if buku.kondisi == 'Rusak Ringan' %}selected{% endif %}>Rusak Ringan</option>
+                        <option value="Rusak Berat" {% if buku.kondisi == 'Rusak Berat' %}selected{% endif %}>Rusak Berat</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tahun Terbit</label>
+                    <input type="number" name="tahun_terbit" class="form-control"
+                           value="{{ buku.tahun_terbit|default:'' }}">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Cover Buku</label>
+                    <input type="file" name="gambar" class="form-control">
+
+                    {% if buku.gambar %}
+               <div class="mt-2">
+                    <small class="text-muted">Cover saat ini:</small><br>
+                    <img src="{{ buku.gambar.url }}" height="100" class="rounded shadow-sm">
+             </div>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        💾 Simpan
+                    </button>
+                    <a href="{% url 'buku_list' %}" class="btn btn-secondary">
+                        Batal
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

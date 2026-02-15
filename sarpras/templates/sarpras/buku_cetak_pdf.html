@@ -1,0 +1,69 @@
+{% extends "sarpras/base_pdf.html" %}
+
+{% block content %}
+
+<!-- ================= JUDUL ================= -->
+<div class="judul">LAPORAN INVENTARIS BARANG</div>
+<div class="subjudul">KIB E – BUKU</div>
+<div class="tahun">Tahun {{ tahun }}</div>
+
+<!-- ================= TABEL DATA ================= -->
+<table>
+    <thead>
+        <tr>
+            <th width="4%">No</th>
+            <th width="13%">Kode Buku</th>
+            <th>Judul Buku</th>
+            <th width="18%">Pengarang</th>
+            <th width="7%">Jumlah</th>
+            <th width="12%">Kondisi</th>
+            <th width="9%">Tahun</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in data %}
+        <tr>
+            <td class="center">{{ forloop.counter }}</td>
+            <td class="center">{{ b.kode_barang }}</td>
+            <td>{{ b.judul }}</td>
+            <td>{{ b.pengarang }}</td>
+            <td class="center">{{ b.jumlah }}</td>
+            <td class="center">{{ b.kondisi }}</td>
+            <td class="center">{{ b.tahun_terbit }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="center">
+                Tidak ada data buku
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+
+<!-- ================= PENUTUP ================= -->
+<table class="no-border">
+    <tr>
+        <td width="40%" class="center" valign="top">
+            <strong>QR VERIFIKASI</strong><br>
+            <img src="data:image/png;base64,{{ qr_code }}" width="105">
+            <div class="footer-text">
+                Dokumen ini dicetak melalui<br>
+                Sistem SARPRAS Sekolah
+            </div>
+        </td>
+
+        <td width="60%" class="center" valign="top">
+            {{ lokasi }}, {{ tanggal|date:"d F Y" }}<br>
+            Mengetahui,<br>
+            Kepala Sekolah
+            <br><br><br>
+            <strong>Nama Kepala Sekolah</strong><br>
+            NIP. 198209042009031002
+        </td>
+    </tr>
+</table>
+
+{% endblock %}

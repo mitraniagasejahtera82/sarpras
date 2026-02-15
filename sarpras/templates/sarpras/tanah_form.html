@@ -1,0 +1,114 @@
+{% extends 'sarpras/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 720px;">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <!-- JUDUL -->
+            <h4 class="mb-4 fw-bold">
+                {% if edit %}
+                    ✏️ Edit Data Tanah
+                {% else %}
+                    ➕ Tambah Data Tanah
+                {% endif %}
+            </h4>
+
+            <!-- FORM -->
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- KODE BARANG -->
+                <div class="mb-3">
+                    <label class="form-label">Kode Barang</label>
+                    <input type="text"
+                           name="kode_barang"
+                           class="form-control"
+                           value="{{ data.kode_barang|default:'' }}"
+                           required>
+                </div>
+
+                <!-- NAMA TANAH -->
+                <div class="mb-3">
+                    <label class="form-label">Nama Tanah</label>
+                    <input type="text"
+                           name="nama"
+                           class="form-control"
+                           value="{{ data.nama|default:'' }}"
+                           required>
+                </div>
+
+                <!-- LUAS -->
+                <div class="mb-3">
+                    <label class="form-label">Luas (m²)</label>
+                    <input type="number"
+                           name="luas"
+                           class="form-control"
+                           value="{{ data.luas|default:'' }}"
+                           required>
+                </div>
+
+                <!-- LOKASI -->
+                <div class="mb-3">
+                    <label class="form-label">Lokasi</label>
+                    <input type="text"
+                           name="lokasi"
+                           class="form-control"
+                           value="{{ data.lokasi|default:'' }}"
+                           required>
+                </div>
+
+                <!-- STATUS -->
+                <div class="mb-3">
+                    <label class="form-label">Status Kepemilikan</label>
+                    <select name="status" class="form-select" required>
+                        <option value="">-- Pilih Status --</option>
+                        <option value="Milik"
+                            {% if data.status == "Milik" %}selected{% endif %}>
+                            Milik
+                        </option>
+                        <option value="Sewa"
+                            {% if data.status == "Sewa" %}selected{% endif %}>
+                            Sewa
+                        </option>
+                        <option value="Pinjam Pakai"
+                            {% if data.status == "Pinjam Pakai" %}selected{% endif %}>
+                            Pinjam Pakai
+                        </option>
+                    </select>
+                </div>
+
+                <!-- TAHUN -->
+                <div class="mb-4">
+                    <label class="form-label">Tahun Perolehan</label>
+                    <input type="number"
+                           name="tahun_perolehan"
+                           class="form-control"
+                           value="{{ data.tahun_perolehan|default:'' }}"
+                           required>
+                </div>
+
+                <!-- TOMBOL -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        💾 Simpan
+                    </button>
+                    <a href="{% url 'tanah_list' %}" class="btn btn-outline-secondary">
+                        Batal
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer text-center mt-5 mb-3 text-muted">
+    © 2026 – Sistem Sarana & Prasarana<br>
+    Dibuat oleh <strong>Zulkhaidir</strong>
+</footer>
+{% endblock %}

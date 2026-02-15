@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            font-size: 12pt;
+            line-height: 1.6;
+        }
+        .kop {
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        .kop img {
+            width: 80px;
+            position: absolute;
+            left: 40px;
+            top: 20px;
+        }
+        .judul {
+            text-align: center;
+            font-weight: bold;
+            text-decoration: underline;
+            margin: 25px 0 10px 0;
+        }
+        table.data {
+            width: 100%;
+            margin-top: 15px;
+        }
+        table.data td {
+            padding: 4px;
+            vertical-align: top;
+        }
+        .ttd {
+            margin-top: 50px;
+            width: 100%;
+        }
+        .ttd td {
+            text-align: center;
+            vertical-align: bottom;
+            height: 110px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- KOP SURAT -->
+<div class="kop">
+    <img src="{{ logo_path }}">
+    <div>
+        <strong>PEMERINTAH KABUPATEN / KOTA XXXXX</strong><br>
+        <strong>DINAS PENDIDIKAN</strong><br>
+        <strong>SMK NEGERI XXXXX</strong><br>
+        <span style="font-size:10pt;">
+            Alamat : Jl. XXXXX No. XX | Telp. (07xx) xxxxxx
+        </span>
+    </div>
+</div>
+
+<!-- JUDUL -->
+<div class="judul">
+    SURAT PEMINJAMAN PERALATAN
+</div>
+
+<p style="text-align:center;">
+    Nomor : {{ nomor_surat }}
+</p>
+
+<p>
+    Yang bertanda tangan di bawah ini menerangkan bahwa:
+</p>
+
+<table class="data">
+    <tr>
+        <td width="30%">Nama Peminjam</td>
+        <td width="5%">:</td>
+        <td>{{ p.peminjam }}</td>
+    </tr>
+    <tr>
+        <td>Nama Peralatan</td>
+        <td>:</td>
+        <td>{{ p.barang.nama }}</td>
+    </tr>
+    <tr>
+        <td>Jumlah</td>
+        <td>:</td>
+        <td>{{ p.jumlah_pinjam }}</td>
+    </tr>
+    <tr>
+        <td>Tanggal Pinjam</td>
+        <td>:</td>
+        <td>{{ p.tanggal_pinjam|date:"d F Y" }}</td>
+    </tr>
+    <tr>
+        <td>Tanggal Pengembalian</td>
+        <td>:</td>
+        <td>..............................................................</td>
+    </tr>
+</table>
+
+<p>
+    Peralatan tersebut dipinjam untuk keperluan kegiatan sekolah dan
+    <strong>wajib dikembalikan dalam kondisi baik</strong>.
+</p>
+
+<p>
+    Apabila terjadi <strong>kerusakan atau kehilangan</strong> terhadap peralatan
+    yang dipinjam, maka <strong>pihak peminjam bertanggung jawab sepenuhnya</strong>
+    untuk <strong>memperbaiki atau mengganti dengan barang sejenis dan setara</strong>,
+    sesuai ketentuan yang berlaku di sekolah.
+</p>
+
+<p>
+    Demikian surat peminjaman ini dibuat dengan sebenarnya untuk dipergunakan
+    sebagaimana mestinya.
+</p>
+
+<!-- TANDA TANGAN -->
+<table class="ttd">
+    <tr>
+        <!-- PEMINJAM (PAKAI MATERAI) -->
+        <td width="33%">
+            Peminjam<br>
+            Materai Rp10.000<br><br><br>
+            <strong>( {{ p.peminjam }} )</strong>
+        </td>
+
+        <!-- SAKSI -->
+        <td width="33%">
+            Saksi<br>
+            Wakil Sarana & Prasarana<br><br><br>
+            <strong>{{ waka_sarpras }}</strong>
+        </td>
+
+        <!-- MENGETAHUI -->
+        <td width="33%">
+            Mengetahui,<br>
+            Kepala Sekolah<br><br><br>
+            <strong>{{ kepala_sekolah }}</strong>
+        </td>
+    </tr>
+</table>
+
+<p style="margin-top:20px; text-align:right;">
+    {{ tempat }}, {{ tanggal_surat }}
+</p>
+
+</body>
+</html>

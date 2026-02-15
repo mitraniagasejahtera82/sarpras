@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan Transaksi Barang Habis Pakai</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 11px;
+        }
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .meta {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 5px;
+        }
+        th {
+            background-color: #eee;
+            text-align: center;
+        }
+        .right {
+            text-align: right;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h2>LAPORAN TRANSAKSI BARANG HABIS PAKAI</h2>
+<div class="meta">
+    Periode: <strong>{{ periode }}</strong><br>
+    Dicetak tanggal: {{ tanggal_cetak }}
+</div>
+
+<!-- ================= BARANG MASUK ================= -->
+<h3>Barang Masuk</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Tanggal</th>
+            <th>Barang</th>
+            <th>Jumlah</th>
+            <th>Sumber</th>
+            <th>Keterangan</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in masuk %}
+        <tr>
+            <td class="center">{{ m.tanggal }}</td>
+            <td>{{ m.barang.nama_barang }}</td>
+            <td class="center">{{ m.jumlah }}</td>
+            <td>{{ m.sumber }}</td>
+            <td>{{ m.keterangan|default:"-" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="center">Tidak ada data barang masuk</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ================= BARANG KELUAR ================= -->
+<h3>Barang Keluar</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Tanggal</th>
+            <th>Barang</th>
+            <th>Jumlah</th>
+            <th>Keperluan</th>
+            <th>Pengguna</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for k in keluar %}
+        <tr>
+            <td class="center">{{ k.tanggal }}</td>
+            <td>{{ k.barang.nama_barang }}</td>
+            <td class="center">{{ k.jumlah }}</td>
+            <td>{{ k.keperluan }}</td>
+            <td>{{ k.pengguna }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="center">Tidak ada data barang keluar</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br><br>
+<table width="100%" style="border:none;">
+    <tr>
+        <td width="60%"></td>
+        <td class="center">
+            Mengetahui,<br><br><br>
+            _______________________<br>
+            Pengelola Sarpras
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kartu Inventaris Ruangan</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        th {
+            background: #e9ecef;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .print-btn {
+            margin-bottom: 20px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .print-btn {
+                display: none;
+            }
+            .container {
+                box-shadow: none;
+                margin: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <button onclick="window.print()" class="print-btn">🖨 Cetak</button>
+
+    <h2>KARTU INVENTARIS RUANGAN (KIR)</h2>
+
+    <div class="info">
+        <strong>Gedung:</strong> {{ ruangan.gedung.nama }} <br>
+        <strong>Ruangan:</strong> {{ ruangan.nama }} <br>
+        <strong>Kode Ruangan:</strong> {{ ruangan.kode }} <br>
+        <strong>Penanggung Jawab:</strong> {{ ruangan.penanggung_jawab }}
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="60">No</th>
+                <th>Nama Barang</th>
+                <th width="100">Jumlah</th>
+                <th width="120">Kondisi</th>
+                <th width="100">Tahun</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in peralatan %}
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td>{{ item.nama }}</td>
+                <td class="text-center">{{ item.jumlah }}</td>
+                <td class="text-center">{{ item.kondisi }}</td>
+                <td class="text-center">{{ item.tahun_perolehan }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">
+                    Tidak ada data peralatan
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-right">
+        Total Unit: {{ total_unit }}
+    </div>
+
+</div>
+
+</body>
+</html>

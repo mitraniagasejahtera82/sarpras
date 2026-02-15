@@ -1,0 +1,141 @@
+{% extends 'sarpras/base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4>📚 Rekap Buku (KIB E)</h4>
+    <a href="{% url 'buku_list' %}" class="btn btn-secondary">
+      ← Kembali
+    </a>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <h6>Total Judul Buku</h6>
+          <h2 class="text-primary">{{ total_judul }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <h6>Total Eksemplar Buku</h6>
+          <h2 class="text-success">{{ total_eksemplar }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <form method="get" class="mb-3">
+    <div class="row g-2">
+      <div class="col-md-8">
+        <input type="text"
+               name="q"
+               class="form-control"
+               placeholder="Cari judul buku..."
+               value="{{ keyword }}">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100">
+          Cari
+        </button>
+      </div>
+      <div class="col-md-2">
+        <a href="{% url 'buku_rekap' %}" class="btn btn-secondary w-100">
+          Reset
+        </a>
+      </div>
+    </div>
+  </form>
+
+  <!-- REKAP KONDISI -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+      Rekap Buku Berdasarkan Kondisi
+    </div>
+    <table class="table table-bordered mb-0">
+      <tr>
+        <th>Kondisi</th>
+        <th>Total</th>
+      </tr>
+      {% for row in rekap_kondisi %}
+      <tr>
+        <td>{{ row.kondisi }}</td>
+        <td>{{ row.total }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <!-- REKAP JUDUL -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      Rekap Buku Berdasarkan Judul
+    </div>
+
+    <table class="table table-striped mb-0">
+      <thead>
+        <tr>
+          <th style="width:60px;">No</th>
+          <th>Judul</th>
+          <th style="width:120px;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in page_obj %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ row.judul }}</td>
+          <td>{{ row.total }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center text-muted">
+            Data tidak ditemukan
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGINATION -->
+  <nav class="mt-3">
+    <ul class="pagination justify-content-center">
+
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?page={{ page_obj.previous_page_number }}&q={{ keyword }}">
+          Prev
+        </a>
+      </li>
+      {% endif %}
+
+      <li class="page-item active">
+        <span class="page-link">
+          {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </span>
+      </li>
+
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?page={{ page_obj.next_page_number }}&q={{ keyword }}">
+          Next
+        </a>
+      </li>
+      {% endif %}
+
+    </ul>
+  </nav>
+
+</div>
+
+{% endblock %}

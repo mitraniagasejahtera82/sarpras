@@ -1,0 +1,194 @@
+{% extends 'sarpras/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- ================= HEADER ================= -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+        <div>
+            <h3 class="mb-1">🖥️ KIB B – Peralatan</h3>
+            <small class="text-muted">
+                Manajemen data peralatan dan mesin sekolah
+            </small>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="{% url 'peralatan_export_excel' %}" class="btn btn-soft-secondary px-3">
+                📤 Export Excel
+            </a>
+            <a href="{% url 'peralatan_import' %}" class="btn btn-soft-secondary px-3">
+                📥 Import Excel
+            </a>
+            <a href="{% url 'peralatan_rekap' %}" class="btn btn-soft-secondary px-3">
+                📊 Rekap
+            </a>
+            <a href="{% url 'peralatan_tambah' %}" class="btn btn-soft-primary px-3">
+                ➕ Tambah
+            </a>
+            <a href="{% url 'peralatan_cetak_pdf' %}" target="_blank"
+               class="btn btn-soft-secondary px-3">
+                🖨️ PDF
+            </a>
+        </div>
+    </div>
+
+    <!-- ================= SEARCH ================= -->
+    <div class="mb-3">
+        <div class="input-group">
+            <span class="input-group-text bg-white">🔍</span>
+            <input type="text"
+                   id="searchInput"
+                   class="form-control"
+                   placeholder="Cari kode, nama, kondisi, tahun...">
+        </div>
+    </div>
+
+    <!-- ================= FILTER GEDUNG ================= -->
+<!-- ================= FILTER GEDUNG ================= -->
+<div class="card shadow-sm mb-3">
+    <div class="card-body py-3">
+        <form method="get" class="row g-2 align-items-center">
+
+            <div class="col-md-4">
+                <select name="gedung" class="form-select">
+                    <option value="">-- Semua Gedung --</option>
+                    {% for g in gedungs %}
+                        <option value="{{ g.id }}"
+                            {% if request.GET.gedung == g.id|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ g.nama }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary px-4">
+                    🔎 Filter
+                </button>
+            </div>
+
+            {% if request.GET.gedung %}
+            <div class="col-auto">
+                <a href="{% url 'peralatan_list' %}"
+                   class="btn btn-outline-secondary">
+                    Reset
+                </a>
+            </div>
+            {% endif %}
+
+        </form>
+    </div>
+</div>
+
+    <!-- ================= TABLE ================= -->
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle mb-0">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th style="width:110px;">Kode</th>
+                        <th>Nama</th>
+                        <th style="width:200px;">Lokasi (Gedung - Ruangan)</th>
+                        <th style="width:90px;">Jumlah</th>
+                        <th style="width:140px;">Kondisi</th>
+                        <th style="width:120px;">Tahun</th>
+                        <th style="width:120px;">Foto</th>
+                        <th style="width:140px;">Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tableBody">
+                {% for p in data %}
+                    <tr>
+                        <td class="text-center fw-semibold">{{ p.kode_barang }}</td>
+                        <td>{{ p.nama }}</td>
+
+                        <!-- GEDUNG - RUANGAN -->
+                        <td class="text-center">
+                            {% if p.ruangan %}
+                                {{ p.ruangan.gedung.nama }} - {{ p.ruangan.nama }}
+                            {% else %}
+                                <span class="text-muted">Belum ditentukan</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">{{ p.jumlah }}</td>
+
+                        <!-- KONDISI -->
+                        <td class="text-center">
+                            {% if p.kondisi == "Baik" %}
+                                <span class="badge-kondisi badge-baik">Baik</span>
+                            {% elif p.kondisi == "Rusak" %}
+                                <span class="badge-kondisi badge-rusak">Rusak</span>
+                            {% else %}
+                                <span class="badge-kondisi badge-perbaikan">
+                                    {{ p.kondisi }}
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">{{ p.tahun_perolehan }}</td>
+
+                        <!-- FOTO -->
+                        <td class="text-center">
+                            {% if p.gambar %}
+                                <img
+                                    src="{{ p.gambar.url }}"
+                                    class="img-thumbnail"
+                                    style="max-height:80px; cursor:pointer;"
+                                    onclick="openImageModal('{{ p.gambar.url }}')"
+                                >
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- ================= AKSI ================= -->
+                        <td class="text-center">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="{% url 'peralatan_edit' p.id %}"
+                                   class="text-warning fs-5"
+                                   title="Edit data">
+                                    ✏️
+                                </a>
+                                <a href="{% url 'peralatan_hapus' p.id %}"
+                                   class="text-danger fs-5"
+                                   title="Hapus data"
+                                   onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                    🗑️
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            Belum ada data peralatan
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= REALTIME SEARCH ================= -->
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function () {
+    let value = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#tableBody tr");
+
+    rows.forEach(function (row) {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value) ? "" : "none";
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'sarpras/base.html' %}
+{% block content %}
+
+<div class="container mt-4" style="max-width:600px;">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                {% if edit %}
+                    ✏️ Edit Ruangan
+                {% else %}
+                    ➕ Tambah Ruangan
+                {% endif %}
+            </h4>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Gedung</label>
+                    <select name="gedung" class="form-control" required>
+                        <option value="">-- Pilih Gedung --</option>
+                        {% for g in gedungs %}
+                            <option value="{{ g.id }}"
+                                {% if data.gedung.id == g.id %}selected{% endif %}>
+                                {{ g.nama }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kode Ruangan</label>
+                    <input type="text" name="kode" class="form-control"
+                           value="{{ data.kode|default:'' }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Nama Ruangan</label>
+                    <input type="text" name="nama" class="form-control"
+                           value="{{ data.nama|default:'' }}" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Penanggung Jawab</label>
+                    <input type="text" name="penanggung_jawab"
+                           class="form-control"
+                           value="{{ data.penanggung_jawab|default:'' }}">
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        💾 Simpan
+                    </button>
+                    <a href="{% url 'ruangan_list' %}" class="btn btn-secondary">
+                        Batal
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

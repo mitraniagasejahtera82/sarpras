@@ -1,0 +1,204 @@
+{% extends 'sarpras/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ================= HEADER ================= -->
+<div class="mb-4">
+    <h4 class="fw-bold mb-1">Dashboard Sarana & Prasarana</h4>
+    <small class="text-muted">
+        Sistem pengelolaan aset sekolah berbasis KIB A–E dan Barang Habis Pakai
+    </small>
+</div>
+
+<!-- ================= STATISTIK ================= -->
+<div class="row g-4 mb-5">
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 p-3">
+            <small class="text-muted">Total Aset</small>
+            <h3 class="fw-bold">{{ total_aset }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 p-3">
+            <small class="text-muted">Barang Habis Pakai</small>
+            <h3 class="fw-bold">{{ total_bhp }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 p-3">
+            <small class="text-muted">Sedang Dipinjam</small>
+            <h3 class="fw-bold">{{ peminjaman_aktif }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 p-3">
+            <small class="text-muted">Stok Habis</small>
+            <h3 class="fw-bold text-danger">{{ stok_habis }}</h3>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= MENU UTAMA ================= -->
+<div class="row g-4">
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-map fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">KIB A</h6>
+            <small class="text-muted">Tanah</small>
+            <a href="{% url 'tanah_list' %}" class="btn btn-outline-success btn-sm w-100 mt-3">
+                Kelola Data
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-pc-display fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">KIB B</h6>
+            <small class="text-muted">Peralatan & Mesin</small>
+            <div class="d-grid gap-2 mt-3">
+                <a href="{% url 'peralatan_list' %}" class="btn btn-outline-success btn-sm">Kelola Data</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-building fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">KIB C</h6>
+            <small class="text-muted">Gedung & Bangunan</small>
+            <a href="{% url 'gedung_list' %}" class="btn btn-outline-success btn-sm w-100 mt-3">
+                Kelola Data
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-signpost-2 fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">KIB D</h6>
+            <small class="text-muted">Jalan & Jaringan</small>
+            <a href="{% url 'jalan_list' %}" class="btn btn-outline-success btn-sm w-100 mt-3">
+                Kelola Data
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-book fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">KIB E</h6>
+            <small class="text-muted">Buku</small>
+            <a href="{% url 'buku_list' %}" class="btn btn-outline-success btn-sm w-100 mt-3">
+                Kelola Data
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-box-seam fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">Habis Pakai</h6>
+            <small class="text-muted">Barang habis pakai</small>
+            <a href="{% url 'bhp_list' %}" class="btn btn-outline-success btn-sm w-100 mt-3">
+                Kelola Data
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-arrow-left-right fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">Peminjaman</h6>
+            <small class="text-muted">Monitoring aset</small>
+            <a href="{% url 'peminjaman_list' %}" class="btn btn-outline-success btn-sm w-100 mt-3">
+                Kelola Peminjaman
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-sm border-0 text-center p-4 h-100">
+            <i class="bi bi-printer fs-2 mb-2 text-success"></i>
+            <h6 class="fw-bold">Cetak KIB</h6>
+            <small class="text-muted">Laporan resmi</small>
+            <a href="{% url 'semua_kib_cetak_pdf' %}" class="btn btn-success btn-sm w-100 mt-3">
+                Cetak Semua
+            </a>
+        </div>
+    </div>
+    <!-- ================= GRAFIK ================= -->
+<div class="row g-4 mb-5">
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4">
+            <h6 class="fw-semibold mb-3">Pertumbuhan Aset</h6>
+            <canvas id="asetChart"></canvas>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4">
+            <h6 class="fw-semibold mb-3">Peminjaman Bulanan</h6>
+            <canvas id="peminjamanChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= SCRIPT GRAFIK ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const labelsAset = {{ labels_aset|safe }};
+    const dataAset = {{ data_aset|safe }};
+
+    const labelsPinjam = {{ labels_pinjam|safe }};
+    const dataPinjam = {{ data_pinjam|safe }};
+
+    new Chart(document.getElementById("asetChart"), {
+        type: 'bar',
+        data: {
+            labels: labelsAset,
+            datasets: [{
+                data: dataAset,
+                backgroundColor: '#0f766e'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    new Chart(document.getElementById("peminjamanChart"), {
+        type: 'line',
+        data: {
+            labels: labelsPinjam,
+            datasets: [{
+                data: dataPinjam,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37,99,235,0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } }
+        }
+    });
+
+});
+</script>
+
+{% endblock %}

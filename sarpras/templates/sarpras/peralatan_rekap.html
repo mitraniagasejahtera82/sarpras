@@ -1,0 +1,58 @@
+{% extends 'sarpras/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Rekapitulasi KIB B – Peralatan & Mesin</h3>
+        <a href="{% url 'peralatan_list' %}" class="btn btn-secondary">
+            ← Kembali
+        </a>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body p-0">
+            <table class="table table-bordered table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width:60px">No</th>
+                        <th>Nama Barang</th>
+                        <th style="width:160px" class="text-center">
+                            Total Unit
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in data %}
+                    <tr>
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td>{{ d.nama }}</td>
+                        <td class="text-center fw-bold">
+                            {{ d.total }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3"
+                            class="text-center text-muted py-4">
+                            Data peralatan belum tersedia
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="alert alert-success text-center fw-bold">
+        Total Seluruh Peralatan : {{ total_semua }} Unit
+    </div>
+
+</div>
+
+<footer class="footer text-center mt-5 mb-3 text-muted">
+    © 2026 – Sistem Sarana & Prasarana<br>
+    Dibuat oleh <strong>Zulkhaidir</strong>
+</footer>
+{% endblock %}
