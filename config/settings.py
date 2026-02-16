@@ -1,8 +1,6 @@
 from pathlib import Path
 import os
 import dj_database_url
-
-
 # =====================================
 # BASE DIRECTORY
 # =====================================
@@ -12,12 +10,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # =====================================
 # SECURITY
 # =====================================
-SECRET_KEY = '864v&tk8tv!axjt5%*y$3x4rw$xb70lllxbtewmy=wjhzp'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['sarpras.onrender.com']
+ALLOWED_HOSTS = os.environ.get(
+    "ALLOWED_HOSTS",
+    "sarpras.onrender.com"
+).split(",")
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://sarpras.onrender.com"
+]
 
 # =====================================
 # APPLICATION DEFINITION
@@ -79,11 +83,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # DATABASE
 # =====================================
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3')
+    )
 }
+
 
 # =====================================
 # PASSWORD VALIDATION
@@ -111,7 +115,7 @@ USE_TZ = True
 # STATIC FILES (CSS, JS)
 # =====================================
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
