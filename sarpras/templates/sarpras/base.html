@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>SARPRAS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,10 +10,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'sarpras/dashboard.css' %}">
+
     <style>
         body {
             background: #f1f5f9;
             margin: 0;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         .layout {
@@ -27,10 +32,6 @@
             color: white;
             padding: 20px;
             transition: all 0.3s ease;
-        }
-
-        .sidebar.hidden {
-            margin-left: -250px;
         }
 
         .sidebar .brand {
@@ -69,10 +70,6 @@
             transition: 0.3s;
         }
 
-        .main.full {
-            margin-left: 0;
-        }
-
         /* TOPBAR */
         .topbar {
             display: flex;
@@ -96,17 +93,38 @@
             color: #64748b;
         }
 
+        /* ================= MOBILE ================= */
         @media (max-width: 992px) {
+
             .sidebar {
                 position: fixed;
+                left: -260px;
+                top: 0;
                 height: 100%;
+                z-index: 1000;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.4);
+                display: none;
                 z-index: 999;
+            }
+
+            .overlay.show {
+                display: block;
             }
 
             .main {
                 padding: 20px;
             }
         }
+
     </style>
 </head>
 
@@ -129,26 +147,18 @@
 
         <hr>
 
-        <a href="{% url 'bhp_list' %}" class="nav-link"><i class="bi bi-box-seam"></i> Barang Habis Pakai</a>
-        <a href="{% url 'ruangan_list' %}" class="nav-link"><i class="bi bi-building"></i> Ruangan</a>
+        <a href="{% url 'bhp_list' %}"><i class="bi bi-box-seam"></i> Barang Habis Pakai</a>
+        <a href="{% url 'ruangan_list' %}"><i class="bi bi-building"></i> Ruangan</a>
+        <a href="{% url 'peminjaman_list' %}"><i class="bi bi-arrow-left-right"></i> Peminjaman</a>
+        <a href="{% url 'aset_per_ruangan' %}"><i class="bi bi-diagram-3"></i> Aset per Ruangan</a>
+        <a href="{% url 'semua_kib_cetak_pdf' %}"><i class="bi bi-printer"></i> Cetak KIB</a>
+    </div>
 
-<a href="{% url 'peminjaman_list' %}" class="nav-link">
-    <i class="bi bi-arrow-left-right"></i> Peminjaman
-</a>
-
-<a href="{% url 'aset_per_ruangan' %}" class="nav-link">
-    <i class="bi bi-diagram-3"></i> Aset per Ruangan
-</a>        
-
-<a href="{% url 'semua_kib_cetak_pdf' %}" class="nav-link">
-    <i class="bi bi-printer"></i> Cetak KIB
-</a>
-
-     </div>
+    <!-- OVERLAY MOBILE -->
+    <div class="overlay" id="overlay"></div>
 
     <!-- MAIN -->
-    <div class="main" id="main">
-
+    <div class="main">
         <div class="topbar">
             <button class="toggle-btn" id="toggleBtn">
                 <i class="bi bi-list"></i>
@@ -164,24 +174,28 @@
 
         <div class="footer">
             © 2026 – Sistem Sarana & Prasarana<br>
-    Dibuat oleh <strong>Zulkhaidir</strong>
+            Dibuat oleh <strong>Zulkhaidir</strong>
         </div>
-
     </div>
+
 </div>
 
 <script>
     const sidebar = document.getElementById('sidebar');
-    const main = document.getElementById('main');
     const toggleBtn = document.getElementById('toggleBtn');
+    const overlay = document.getElementById('overlay');
 
     toggleBtn.addEventListener('click', function () {
-        sidebar.classList.toggle('hidden');
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+    });
+
+    overlay.addEventListener('click', function () {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
-
-
