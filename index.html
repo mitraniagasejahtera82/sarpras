@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SARPRAS - Pratinjau Dashboard Baru</title>
+  <title>SARPRAS - Pratinjau Inventaris KIB A-E</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 :root {
   --navy-900: #082f49;
@@ -24,12 +23,14 @@
   --slate-200: #e2e8f0;
   --slate-100: #f1f5f9;
   --white: #ffffff;
+  --green-100: #dcfce7;
+  --green-700: #15803d;
+  --red-100: #fee2e2;
+  --red-700: #b91c1c;
   --radius-sm: 10px;
   --radius-md: 14px;
-  --radius-lg: 18px;
   --shadow-sm: 0 2px 8px rgba(8,47,73,0.06);
   --shadow-md: 0 6px 20px rgba(8,47,73,0.08);
-  --shadow-lg: 0 12px 35px rgba(8,47,73,0.10);
   --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
 }
 
@@ -42,7 +43,6 @@ body {
   line-height: 1.5;
 }
 
-/* ====== LAYOUT ====== */
 .layout { display: flex; min-height: 100vh; }
 
 /* ====== SIDEBAR ====== */
@@ -60,9 +60,7 @@ body {
 
 .sidebar-brand {
   padding: 22px 24px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; align-items: center; gap: 12px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -74,446 +72,328 @@ body {
   font-size: 22px; color: var(--navy-900);
 }
 
-.sidebar-brand .brand-text {
-  font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 0.5px;
-}
-.sidebar-brand .brand-sub {
-  font-size: 11px; color: var(--navy-100); opacity: 0.6; margin-top: 2px;
-}
+.sidebar-brand .brand-text { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+.sidebar-brand .brand-sub { font-size: 11px; color: var(--navy-100); opacity: 0.6; margin-top: 2px; }
 
 .sidebar-section-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: rgba(224,242,254,0.4);
-  padding: 18px 24px 8px;
-  font-weight: 600;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: rgba(224,242,254,0.4); padding: 18px 24px 8px; font-weight: 600;
 }
 
 .sidebar a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 24px;
-  color: rgba(224,242,254,0.7);
-  text-decoration: none;
-  font-size: 14px;
-  transition: var(--transition);
-  border-left: 3px solid transparent;
-  position: relative;
-  cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 24px; color: rgba(224,242,254,0.7);
+  text-decoration: none; font-size: 14px;
+  transition: var(--transition); border-left: 3px solid transparent;
+  position: relative; cursor: pointer;
 }
 
 .sidebar a i { font-size: 17px; width: 22px; text-align: center; flex-shrink: 0; }
-
-.sidebar a:hover {
-  background: rgba(255,255,255,0.06);
-  color: #fff;
-}
+.sidebar a:hover { background: rgba(255,255,255,0.06); color: #fff; }
 
 .sidebar a.active {
-  background: rgba(250,204,21,0.10);
-  color: var(--yellow-400);
-  border-left-color: var(--yellow-400);
-  font-weight: 600;
+  background: rgba(250,204,21,0.10); color: var(--yellow-400);
+  border-left-color: var(--yellow-400); font-weight: 600;
 }
 
 .sidebar a.active::after {
-  content: '';
-  position: absolute;
-  right: 16px;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--yellow-400);
+  content: ''; position: absolute; right: 16px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--yellow-400);
 }
 
-.sidebar-divider {
-  height: 1px;
-  background: rgba(255,255,255,0.08);
-  margin: 8px 20px;
-}
+.sidebar-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 20px; }
 
 .sidebar-badge {
-  margin-left: auto;
-  background: var(--yellow-400);
-  color: var(--navy-900);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 999px;
+  margin-left: auto; background: var(--yellow-400); color: var(--navy-900);
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
 }
 
-/* ====== MAIN AREA ====== */
-.main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
+/* ====== MAIN ====== */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 
 /* ====== TOPBAR ====== */
 .topbar {
-  background: var(--white);
-  padding: 14px 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background: var(--white); padding: 14px 28px;
+  display: flex; justify-content: space-between; align-items: center;
   border-bottom: 1px solid var(--slate-200);
-  box-shadow: var(--shadow-sm);
-  position: sticky;
-  top: 0;
-  z-index: 999;
+  box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 999;
 }
 
 .topbar-left { display: flex; align-items: center; gap: 16px; }
 
 .toggle-btn {
-  background: var(--slate-100);
-  border: none;
-  width: 38px; height: 38px;
-  border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  color: var(--slate-700);
+  background: var(--slate-100); border: none;
+  width: 38px; height: 38px; border-radius: var(--radius-sm);
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; color: var(--slate-700);
   transition: var(--transition);
 }
 .toggle-btn:hover { background: var(--navy-100); color: var(--navy-800); }
 
-.topbar-title {
-  font-size: 18px; font-weight: 700; color: var(--navy-900);
-}
-.topbar-subtitle {
-  font-size: 12px; color: var(--slate-500); margin-top: 1px;
-}
+.topbar-title { font-size: 18px; font-weight: 700; color: var(--navy-900); }
+.topbar-subtitle { font-size: 12px; color: var(--slate-500); margin-top: 1px; }
 
 .topbar-right { display: flex; align-items: center; gap: 20px; }
-
-.topbar-date {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: var(--slate-500);
-}
+.topbar-date { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--slate-500); }
 .topbar-date i { color: var(--navy-600); font-size: 16px; }
 
 .topbar-school {
   display: flex; align-items: center; gap: 10px;
-  padding: 6px 14px;
-  background: var(--navy-50);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
+  padding: 6px 14px; background: var(--navy-50);
+  border-radius: var(--radius-sm); font-size: 13px;
 }
 .topbar-school i { color: var(--navy-700); font-size: 18px; }
 .topbar-school .school-name { font-weight: 600; color: var(--navy-900); }
 .topbar-school .school-sub { font-size: 11px; color: var(--slate-500); }
 
 /* ====== CONTENT ====== */
-.content {
-  padding: 28px;
-  flex: 1;
+.content { padding: 28px; flex: 1; }
+
+/* ====== PAGE HEADER ====== */
+.page-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
 }
 
-/* ====== SECTION HEADER ====== */
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  margin-top: 8px;
-}
+.page-header-left { display: flex; align-items: center; gap: 14px; }
 
-.section-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--navy-900);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.section-title::before {
-  content: '';
-  width: 4px; height: 18px;
-  background: var(--yellow-400);
-  border-radius: 2px;
-}
-
-.section-link {
-  font-size: 12px;
-  color: var(--navy-600);
-  text-decoration: none;
-  font-weight: 600;
-  transition: var(--transition);
-}
-.section-link:hover { color: var(--navy-800); }
-
-/* ====== STAT CARDS ====== */
-.stat-row { margin-bottom: 28px; }
-
-.stat-card {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 22px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-  border: 1px solid var(--slate-200);
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  height: 100%;
-}
-
-.stat-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--navy-100);
-}
-
-.stat-icon {
-  width: 52px; height: 52px;
-  border-radius: var(--radius-sm);
+.page-header-icon {
+  width: 48px; height: 48px; border-radius: var(--radius-sm);
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
+  font-size: 24px; flex-shrink: 0;
 }
 
-.stat-icon.navy   { background: var(--navy-100); color: var(--navy-700); }
-.stat-icon.green  { background: #dcfce7; color: #16a34a; }
-.stat-icon.yellow { background: var(--yellow-100); color: #a16207; }
-.stat-icon.red    { background: #fee2e2; color: #dc2626; }
+.page-header-title { font-size: 20px; font-weight: 700; color: var(--navy-900); }
+.page-header-sub { font-size: 13px; color: var(--slate-500); margin-top: 2px; }
 
-.stat-body { flex: 1; min-width: 0; }
-.stat-label { font-size: 12px; color: var(--slate-500); font-weight: 500; margin-bottom: 4px; }
-.stat-value { font-size: 28px; font-weight: 800; color: var(--navy-900); line-height: 1.1; }
-.stat-trend { font-size: 11px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
-.stat-trend.up { color: #16a34a; }
-.stat-trend.down { color: #dc2626; }
-.stat-trend.neutral { color: var(--slate-500); }
+.page-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* ====== QUICK ACCESS CARDS ====== */
-.quick-card {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  text-align: center;
-  border: 1px solid var(--slate-200);
-  box-shadow: var(--shadow-sm);
+/* ====== BUTTONS ====== */
+.btn-kib {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; text-decoration: none;
+  transition: var(--transition); cursor: pointer; border: 1px solid transparent;
+}
+
+.btn-kib-primary {
+  background: var(--navy-800); color: #fff; border-color: var(--navy-800);
+}
+.btn-kib-primary:hover { background: var(--navy-900); border-color: var(--navy-900); }
+
+.btn-kib-yellow {
+  background: var(--yellow-400); color: var(--navy-900); border-color: var(--yellow-400);
+}
+.btn-kib-yellow:hover { background: var(--yellow-300); border-color: var(--yellow-300); }
+
+.btn-kib-outline {
+  background: var(--white); color: var(--navy-700); border-color: var(--slate-200);
+}
+.btn-kib-outline:hover { background: var(--navy-50); border-color: var(--navy-100); }
+
+/* ====== SEARCH + FILTER BAR ====== */
+.toolbar-card {
+  background: var(--white); border-radius: var(--radius-md);
+  border: 1px solid var(--slate-200); box-shadow: var(--shadow-sm);
+  padding: 16px 20px; margin-bottom: 20px;
+}
+
+.toolbar-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+.search-wrap {
+  flex: 1; min-width: 200px; position: relative;
+}
+
+.search-wrap i {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--slate-500); font-size: 16px; z-index: 1;
+}
+
+.search-input {
+  width: 100%; padding: 10px 16px 10px 42px;
+  border: 1px solid var(--slate-200); border-radius: var(--radius-sm);
+  font-size: 14px; color: var(--slate-700);
+  transition: var(--transition); outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--navy-600);
+  box-shadow: 0 0 0 3px rgba(3,105,161,0.1);
+}
+
+.filter-select {
+  padding: 10px 16px; border: 1px solid var(--slate-200);
+  border-radius: var(--radius-sm); font-size: 14px; color: var(--slate-700);
+  background: var(--white); cursor: pointer; outline: none;
   transition: var(--transition);
-  height: 100%;
 }
-
-.quick-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--navy-100);
-}
-
-.quick-icon {
-  width: 56px; height: 56px;
-  background: var(--navy-50);
-  color: var(--navy-700);
-  border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px;
-  margin: 0 auto 12px;
-  transition: var(--transition);
-}
-
-.quick-card:hover .quick-icon {
-  background: var(--navy-800);
-  color: var(--yellow-400);
-}
-
-.quick-title { font-size: 14px; font-weight: 700; color: var(--navy-900); margin-bottom: 4px; }
-.quick-desc { font-size: 11px; color: var(--slate-500); margin-bottom: 14px; }
-
-.quick-btn {
-  display: inline-block;
-  padding: 6px 18px;
-  background: var(--navy-50);
-  color: var(--navy-700);
-  border: 1px solid var(--navy-100);
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: var(--transition);
-}
-
-.quick-card:hover .quick-btn {
-  background: var(--navy-800);
-  color: #fff;
-  border-color: var(--navy-800);
-}
-
-.quick-card.highlight .quick-btn {
-  background: var(--yellow-400);
-  color: var(--navy-900);
-  border-color: var(--yellow-400);
-}
-.quick-card.highlight:hover .quick-btn {
-  background: var(--yellow-300);
-  border-color: var(--yellow-300);
-}
-
-/* ====== CHART CARDS ====== */
-.chart-card {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  border: 1px solid var(--slate-200);
-  box-shadow: var(--shadow-sm);
-  height: 100%;
-}
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.chart-title { font-size: 14px; font-weight: 700; color: var(--navy-900); }
-.chart-subtitle { font-size: 11px; color: var(--slate-500); margin-top: 2px; }
-
-.chart-legend {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--slate-500);
-}
-.chart-legend .dot {
-  width: 10px; height: 10px; border-radius: 3px;
-}
-
-.chart-canvas-wrap { position: relative; height: 240px; }
+.filter-select:focus { border-color: var(--navy-600); box-shadow: 0 0 0 3px rgba(3,105,161,0.1); }
 
 /* ====== TABLE CARD ====== */
 .table-card {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--slate-200);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
+  background: var(--white); border-radius: var(--radius-md);
+  border: 1px solid var(--slate-200); box-shadow: var(--shadow-sm);
+  overflow: hidden; margin-bottom: 20px;
 }
 
-.table-card-header {
-  padding: 18px 24px;
-  border-bottom: 1px solid var(--slate-200);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.table-card-info {
+  padding: 10px 24px; font-size: 12px; color: var(--slate-500);
+  border-bottom: 1px solid var(--slate-100);
 }
 
 .table-responsive-wrap { overflow-x: auto; }
 
-.table-clean {
-  width: 100%;
-  border-collapse: collapse;
-}
+.table-clean { width: 100%; border-collapse: collapse; }
 
 .table-clean thead th {
-  background: var(--navy-50);
-  color: var(--slate-500);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 12px 24px;
-  border: none;
-  text-align: left;
+  background: var(--navy-50); color: var(--slate-500);
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; padding: 12px 20px; border: none; text-align: left;
+  white-space: nowrap;
 }
 
 .table-clean tbody td {
-  padding: 13px 24px;
-  border-top: 1px solid var(--slate-100);
-  font-size: 13px;
-  color: var(--slate-700);
-  vertical-align: middle;
+  padding: 13px 20px; border-top: 1px solid var(--slate-100);
+  font-size: 13px; color: var(--slate-700); vertical-align: middle;
 }
 
-.table-clean tbody tr {
-  transition: var(--transition);
+.table-clean tbody tr { transition: var(--transition); }
+.table-clean tbody tr:hover { background: var(--navy-50); }
+
+/* ====== BADGE ====== */
+.badge-k {
+  padding: 4px 12px; border-radius: 999px; font-size: 11px;
+  font-weight: 600; display: inline-block; white-space: nowrap;
+}
+.badge-baik      { background: var(--green-100); color: var(--green-700); }
+.badge-rusak     { background: var(--red-100); color: var(--red-700); }
+.badge-perbaikan { background: var(--yellow-100); color: #a16207; }
+
+/* ====== ACTION ICONS ====== */
+.action-icons { display: flex; gap: 8px; justify-content: center; }
+.action-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; cursor: pointer; transition: var(--transition);
+  border: 1px solid transparent; text-decoration: none;
+}
+.action-icon.edit { background: var(--yellow-100); color: #a16207; border-color: #fde68a; }
+.action-icon.edit:hover { background: var(--yellow-400); color: var(--navy-900); }
+.action-icon.delete { background: var(--red-100); color: var(--red-700); border-color: #fecaca; }
+.action-icon.delete:hover { background: #ef4444; color: #fff; }
+
+/* ====== IMG THUMB ====== */
+.img-thumb {
+  width: 50px; height: 50px; object-fit: cover;
+  border-radius: 8px; cursor: pointer; transition: var(--transition);
+  border: 1px solid var(--slate-200);
+}
+.img-thumb:hover { transform: scale(1.08); box-shadow: var(--shadow-md); }
+
+.img-placeholder {
+  width: 50px; height: 50px; border-radius: 8px;
+  background: var(--slate-100); color: var(--slate-500);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin: 0 auto;
 }
 
-.table-clean tbody tr:hover {
-  background: var(--navy-50);
+/* ====== PAGINATION ====== */
+.pagination-wrap {
+  padding: 14px 24px; border-top: 1px solid var(--slate-100);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
 }
 
-.badge {
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-  display: inline-block;
-}
-.badge-baik     { background: #dcfce7; color: #15803d; }
-.badge-rusak    { background: #fee2e2; color: #b91c1c; }
-.badge-perbaikan { background: #fef9c3; color: #a16207; }
-.badge-dipinjam { background: var(--navy-100); color: var(--navy-700); }
-.badge-kembali  { background: #dcfce7; color: #15803d; }
+.pagination-info { font-size: 12px; color: var(--slate-500); }
 
+.pagination-btns { display: flex; gap: 4px; }
+
+.pag-btn {
+  padding: 6px 14px; border: 1px solid var(--slate-200);
+  border-radius: 8px; font-size: 13px; color: var(--slate-700);
+  background: var(--white); cursor: pointer; transition: var(--transition);
+  text-decoration: none;
+}
+.pag-btn:hover { background: var(--navy-50); border-color: var(--navy-100); }
+.pag-btn.active { background: var(--navy-800); color: #fff; border-color: var(--navy-800); }
+.pag-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ====== TAB NAV ====== */
+.kib-tabs {
+  display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap;
+  background: var(--white); border-radius: var(--radius-md);
+  border: 1px solid var(--slate-200); padding: 6px; box-shadow: var(--shadow-sm);
+}
+
+.kib-tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; color: var(--slate-500);
+  cursor: pointer; transition: var(--transition);
+  border: none; background: transparent; white-space: nowrap;
+}
+
+.kib-tab i { font-size: 16px; }
+.kib-tab:hover { background: var(--navy-50); color: var(--navy-700); }
+.kib-tab.active { background: var(--navy-800); color: #fff; }
+.kib-tab.active i { color: var(--yellow-400); }
+
+/* ====== DEMO TAG ====== */
 .demo-tag {
-  display: inline-block;
-  padding: 2px 10px;
-  background: var(--yellow-100);
-  color: #a16207;
-  font-size: 10px;
-  font-weight: 700;
-  border-radius: 999px;
-  letter-spacing: 0.5px;
-  margin-left: 8px;
-  vertical-align: middle;
+  display: inline-block; padding: 2px 10px;
+  background: var(--yellow-100); color: #a16207;
+  font-size: 10px; font-weight: 700; border-radius: 999px;
+  letter-spacing: 0.5px; margin-left: 8px; vertical-align: middle;
 }
+
+/* ====== STAT MINI ====== */
+.stat-mini-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+
+.stat-mini {
+  flex: 1; min-width: 120px; background: var(--white);
+  border-radius: var(--radius-sm); border: 1px solid var(--slate-200);
+  padding: 14px 18px; box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; gap: 12px;
+}
+
+.stat-mini-icon {
+  width: 40px; height: 40px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+
+.stat-mini-icon.navy { background: var(--navy-100); color: var(--navy-700); }
+.stat-mini-icon.green { background: var(--green-100); color: var(--green-700); }
+.stat-mini-icon.yellow { background: var(--yellow-100); color: #a16207; }
+.stat-mini-icon.red { background: var(--red-100); color: var(--red-700); }
+
+.stat-mini-label { font-size: 11px; color: var(--slate-500); }
+.stat-mini-value { font-size: 20px; font-weight: 800; color: var(--navy-900); line-height: 1.1; }
 
 /* ====== FOOTER ====== */
 .footer {
-  text-align: center;
-  padding: 20px 28px;
-  font-size: 12px;
-  color: var(--slate-500);
-  border-top: 1px solid var(--slate-200);
-  margin-top: auto;
+  text-align: center; padding: 20px 28px; font-size: 12px;
+  color: var(--slate-500); border-top: 1px solid var(--slate-200); margin-top: auto;
 }
-
 .footer strong { color: var(--navy-800); }
-
-/* ====== ALERT / FLASH ====== */
-.alert-demo {
-  background: var(--navy-50);
-  border: 1px solid var(--navy-100);
-  border-radius: var(--radius-sm);
-  padding: 12px 18px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--navy-700);
-}
-.alert-demo i { font-size: 18px; color: var(--navy-600); }
-.alert-demo .demo-tag { margin-left: 4px; }
 
 /* ====== OVERLAY ====== */
 .overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(8,47,73,0.5);
-  display: none;
-  z-index: 998;
+  position: fixed; inset: 0; background: rgba(8,47,73,0.5);
+  display: none; z-index: 998;
 }
 .overlay.show { display: block; }
+
+/* ====== PAGE SECTIONS ====== */
+.kib-page { display: none; }
+.kib-page.active { display: block; }
 
 /* ====== RESPONSIVE ====== */
 @media (max-width: 992px) {
   .sidebar {
-    position: fixed;
-    left: 0; top: 0;
-    height: 100%;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    position: fixed; left: 0; top: 0; height: 100%;
+    transform: translateX(-100%); transition: transform 0.3s ease;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
   }
   .sidebar.show { transform: translateX(0); }
   .content { padding: 20px; }
@@ -522,26 +402,18 @@ body {
   .toggle-btn { display: flex; }
 }
 
-@media (min-width: 993px) {
-  .toggle-btn { display: none; }
-}
-
 @media (max-width: 768px) {
-  .stat-card { padding: 16px; gap: 12px; }
-  .stat-icon { width: 44px; height: 44px; font-size: 20px; }
-  .stat-value { font-size: 22px; }
-  .chart-canvas-wrap { height: 220px; }
   .topbar-subtitle { display: none; }
-  .quick-card { padding: 16px; }
+  .page-header-title { font-size: 17px; }
+  .stat-mini { min-width: 100%; }
+  .kib-tab { padding: 8px 14px; font-size: 12px; }
 }
 
 @media (max-width: 480px) {
   .topbar-date { display: none; }
   .content { padding: 14px; }
-  .stat-card { flex-direction: column; text-align: center; align-items: center; }
-  .stat-body { text-align: center; }
-  .stat-value { font-size: 20px; }
-  .stat-value .demo-tag { display: block; margin: 4px auto 0; }
+  .page-header-actions { width: 100%; }
+  .btn-kib { flex: 1; justify-content: center; }
 }
   </style>
   <meta property="og:image" content="https://bolt.new/static/og_default.png">
@@ -550,14 +422,13 @@ body {
 </head>
 <body>
 
-<!-- PRATINJAU BANNER -->
 <div style="background:#facc15;color:#082f49;padding:6px 20px;font-size:12px;font-weight:700;text-align:center;letter-spacing:0.5px;">
-  <i class="bi bi-eye"></i> PRATINJAU DESAIN DASHBOARD SARPRAS &mdash; DATA CONTOH (DEMO) &mdash; BUKAN DATA ASLI
+  <i class="bi bi-eye"></i> PRATINJAU DESAIN INVENTARIS KIB A&ndash;E &mdash; DATA CONTOH (DEMO) &mdash; BUKAN DATA ASLI
 </div>
 
 <div class="layout">
 
-  <!-- ====== SIDEBAR ====== -->
+  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon"><i class="bi bi-buildings"></i></div>
@@ -568,14 +439,14 @@ body {
     </div>
 
     <div class="sidebar-section-label">Utama</div>
-    <a class="active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a><i class="bi bi-speedometer2"></i> Dashboard</a>
 
     <div class="sidebar-section-label">Inventaris KIB</div>
-    <a><i class="bi bi-map"></i> KIB A &mdash; Tanah</a>
-    <a><i class="bi bi-pc-display"></i> KIB B &mdash; Peralatan</a>
-    <a><i class="bi bi-building"></i> KIB C &mdash; Gedung</a>
-    <a><i class="bi bi-signpost-2"></i> KIB D &mdash; Jalan</a>
-    <a><i class="bi bi-book"></i> KIB E &mdash; Buku</a>
+    <a class="kib-nav active" data-kib="A"><i class="bi bi-map"></i> KIB A &mdash; Tanah</a>
+    <a class="kib-nav" data-kib="B"><i class="bi bi-pc-display"></i> KIB B &mdash; Peralatan</a>
+    <a class="kib-nav" data-kib="C"><i class="bi bi-building"></i> KIB C &mdash; Gedung</a>
+    <a class="kib-nav" data-kib="D"><i class="bi bi-signpost-2"></i> KIB D &mdash; Jalan</a>
+    <a class="kib-nav" data-kib="E"><i class="bi bi-book"></i> KIB E &mdash; Buku</a>
 
     <div class="sidebar-divider"></div>
 
@@ -593,22 +464,22 @@ body {
 
   <div class="overlay" id="overlay"></div>
 
-  <!-- ====== MAIN ====== -->
+  <!-- MAIN -->
   <div class="main">
 
     <!-- TOPBAR -->
     <div class="topbar">
       <div class="topbar-left">
-        <button class="toggle-btn" id="toggleBtn" aria-label="Buka atau tutup menu navigasi"><i class="bi bi-list" aria-hidden="true"></i></button>
+        <button class="toggle-btn" id="toggleBtn" aria-label="Buka atau tutup menu navigasi">
+          <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
         <div>
-          <div class="topbar-title">Dashboard</div>
-          <div class="topbar-subtitle">Ringkasan Sarana &amp; Prasarana Sekolah</div>
+          <div class="topbar-title" id="topbarTitle">Inventaris KIB A &mdash; Tanah</div>
+          <div class="topbar-subtitle">Daftar data tanah sekolah</div>
         </div>
       </div>
       <div class="topbar-right">
-        <div class="topbar-date">
-          <i class="bi bi-calendar3"></i> 16 Oktober 2026
-        </div>
+        <div class="topbar-date"><i class="bi bi-calendar3"></i> 16 Oktober 2026</div>
         <div class="topbar-school">
           <i class="bi bi-mortarboard-fill"></i>
           <div>
@@ -622,241 +493,321 @@ body {
     <!-- CONTENT -->
     <div class="content">
 
-      <!-- ALERT DEMO -->
-      <div class="alert-demo">
-        <i class="bi bi-info-circle-fill"></i>
-        Contoh notifikasi pesan (flash message) akan tampil di sini saat operasi berhasil.
-        <span class="demo-tag">DEMO</span>
+      <!-- TAB NAV -->
+      <div class="kib-tabs">
+        <button class="kib-tab active" data-kib="A"><i class="bi bi-map"></i> KIB A</button>
+        <button class="kib-tab" data-kib="B"><i class="bi bi-pc-display"></i> KIB B</button>
+        <button class="kib-tab" data-kib="C"><i class="bi bi-building"></i> KIB C</button>
+        <button class="kib-tab" data-kib="D"><i class="bi bi-signpost-2"></i> KIB D</button>
+        <button class="kib-tab" data-kib="E"><i class="bi bi-book"></i> KIB E</button>
       </div>
 
-      <!-- STAT CARDS -->
-      <div class="section-header">
-        <div class="section-title">Ringkasan</div>
-      </div>
+      <!-- ===================== KIB A - TANAH ===================== -->
+      <div class="kib-page active" id="page-A">
+        <div class="page-header">
+          <div class="page-header-left">
+            <div class="page-header-icon" style="background:var(--navy-100);color:var(--navy-700);"><i class="bi bi-map"></i></div>
+            <div>
+              <div class="page-header-title">KIB A &mdash; Tanah <span class="demo-tag">DEMO</span></div>
+              <div class="page-header-sub">Manajemen data tanah sekolah</div>
+            </div>
+          </div>
+          <div class="page-header-actions">
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-printer"></i> Cetak PDF</a>
+            <a class="btn-kib btn-kib-primary"><i class="bi bi-plus-lg"></i> Tambah Tanah</a>
+          </div>
+        </div>
 
-      <div class="row g-3 stat-row">
-        <div class="col-6 col-lg-3">
-          <div class="stat-card">
-            <div class="stat-icon navy"><i class="bi bi-stack"></i></div>
-            <div class="stat-body">
-              <div class="stat-label">Total Aset KIB</div>
-              <div class="stat-value">47<span class="demo-tag">DEMO</span></div>
-              <div class="stat-trend up"><i class="bi bi-arrow-up-short"></i> Gabungan KIB A&ndash;E</div>
+        <div class="stat-mini-row">
+          <div class="stat-mini"><div class="stat-mini-icon navy"><i class="bi bi-layers"></i></div><div><div class="stat-mini-label">Total Bidang</div><div class="stat-mini-value">5</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon green"><i class="bi bi-check-circle"></i></div><div><div class="stat-mini-label">Sertifikat</div><div class="stat-mini-value">3</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon yellow"><i class="bi bi-clock"></i></div><div><div class="stat-mini-label">Belum Sertifikat</div><div class="stat-mini-value">2</div></div></div>
+        </div>
+
+        <div class="toolbar-card">
+          <div class="toolbar-row">
+            <div class="search-wrap">
+              <i class="bi bi-search"></i>
+              <input type="text" class="search-input" placeholder="Cari kode, nama, lokasi, atau status tanah..." onkeyup="filterTable(this, 'tableA')">
             </div>
           </div>
         </div>
-        <div class="col-6 col-lg-3">
-          <div class="stat-card">
-            <div class="stat-icon green"><i class="bi bi-box-seam"></i></div>
-            <div class="stat-body">
-              <div class="stat-label">Barang Habis Pakai</div>
-              <div class="stat-value">12<span class="demo-tag">DEMO</span></div>
-              <div class="stat-trend neutral"><i class="bi bi-dash"></i> Jenis terdaftar</div>
-            </div>
+
+        <div class="table-card">
+          <div class="table-card-info">Menampilkan 5 data <span class="demo-tag">DEMO</span></div>
+          <div class="table-responsive-wrap">
+            <table class="table-clean" id="tableA">
+              <thead><tr>
+                <th>Kode</th><th>Nama</th><th>Luas (m&sup2;)</th><th>Lokasi</th><th>Status</th><th>Tahun</th><th style="text-align:center;">Aksi</th>
+              </tr></thead>
+              <tbody>
+                <tr><td>A.001</td><td>Tanah Lapangan Olahraga</td><td>2500</td><td>Lubuklinggau</td><td><span class="badge-k badge-baik">Sertifikat</span></td><td>2010</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>A.002</td><td>Tanah Area Belakang</td><td>800</td><td>Lubuklinggau</td><td><span class="badge-k badge-perbaikan">Proses</span></td><td>2015</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>A.003</td><td>Tanah Parkir Kendaraan</td><td>500</td><td>Lubuklinggau</td><td><span class="badge-k badge-baik">Sertifikat</span></td><td>2012</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>A.004</td><td>Tanah Kebun Sekolah</td><td>1200</td><td>Lubuklinggau</td><td><span class="badge-k badge-baik">Sertifikat</span></td><td>2008</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>A.005</td><td>Tanah Ekspansi</td><td>300</td><td>Lubuklinggau</td><td><span class="badge-k badge-perbaikan">Proses</span></td><td>2020</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="stat-card">
-            <div class="stat-icon yellow"><i class="bi bi-arrow-left-right"></i></div>
-            <div class="stat-body">
-              <div class="stat-label">Sedang Dipinjam</div>
-              <div class="stat-value">3<span class="demo-tag">DEMO</span></div>
-              <div class="stat-trend neutral"><i class="bi bi-clock"></i> Menunggu kembali</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="stat-card">
-            <div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div>
-            <div class="stat-body">
-              <div class="stat-label">Stok Habis</div>
-              <div class="stat-value">5<span class="demo-tag">DEMO</span></div>
-              <div class="stat-trend down"><i class="bi bi-arrow-down-short"></i> Perlu restok</div>
+          <div class="pagination-wrap">
+            <div class="pagination-info">Total 5 data <span class="demo-tag">DEMO</span></div>
+            <div class="pagination-btns">
+              <button class="pag-btn" disabled>&laquo;</button>
+              <button class="pag-btn active">1</button>
+              <button class="pag-btn" disabled>&raquo;</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- QUICK ACCESS -->
-      <div class="section-header">
-        <div class="section-title">Akses Cepat</div>
-      </div>
-
-      <div class="row g-3 mb-4">
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card">
-            <div class="quick-icon"><i class="bi bi-map"></i></div>
-            <div class="quick-title">KIB A</div>
-            <div class="quick-desc">Tanah</div>
-            <a class="quick-btn">Kelola</a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card">
-            <div class="quick-icon"><i class="bi bi-pc-display"></i></div>
-            <div class="quick-title">KIB B</div>
-            <div class="quick-desc">Peralatan &amp; Mesin</div>
-            <a class="quick-btn">Kelola</a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card">
-            <div class="quick-icon"><i class="bi bi-building"></i></div>
-            <div class="quick-title">KIB C</div>
-            <div class="quick-desc">Gedung &amp; Bangunan</div>
-            <a class="quick-btn">Kelola</a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card">
-            <div class="quick-icon"><i class="bi bi-signpost-2"></i></div>
-            <div class="quick-title">KIB D</div>
-            <div class="quick-desc">Jalan &amp; Jaringan</div>
-            <a class="quick-btn">Kelola</a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card">
-            <div class="quick-icon"><i class="bi bi-book"></i></div>
-            <div class="quick-title">KIB E</div>
-            <div class="quick-desc">Buku</div>
-            <a class="quick-btn">Kelola</a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card">
-            <div class="quick-icon"><i class="bi bi-box-seam"></i></div>
-            <div class="quick-title">BHP</div>
-            <div class="quick-desc">Barang Habis Pakai</div>
-            <a class="quick-btn">Kelola</a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card">
-            <div class="quick-icon"><i class="bi bi-arrow-left-right"></i></div>
-            <div class="quick-title">Peminjaman</div>
-            <div class="quick-desc">Monitoring aset</div>
-            <a class="quick-btn">Kelola</a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="quick-card highlight">
-            <div class="quick-icon"><i class="bi bi-printer"></i></div>
-            <div class="quick-title">Cetak KIB</div>
-            <div class="quick-desc">Laporan resmi</div>
-            <a class="quick-btn">Cetak Semua</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- CHARTS -->
-      <div class="section-header">
-        <div class="section-title">Grafik</div>
-      </div>
-
-      <div class="row g-3 mb-4">
-        <div class="col-lg-6">
-          <div class="chart-card">
-            <div class="chart-header">
-              <div>
-                <div class="chart-title">Pertumbuhan Aset</div>
-                <div class="chart-subtitle">Jumlah peralatan per tahun perolehan <span class="demo-tag">DEMO</span></div>
-              </div>
-              <div class="chart-legend">
-                <div class="dot" style="background:#0c4a6e"></div> Peralatan
-              </div>
+      <!-- ===================== KIB B - PERALATAN ===================== -->
+      <div class="kib-page" id="page-B">
+        <div class="page-header">
+          <div class="page-header-left">
+            <div class="page-header-icon" style="background:var(--navy-100);color:var(--navy-700);"><i class="bi bi-pc-display"></i></div>
+            <div>
+              <div class="page-header-title">KIB B &mdash; Peralatan &amp; Mesin <span class="demo-tag">DEMO</span></div>
+              <div class="page-header-sub">Manajemen data peralatan dan mesin sekolah</div>
             </div>
-            <div class="chart-canvas-wrap"><canvas id="asetChart"></canvas></div>
+          </div>
+          <div class="page-header-actions">
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-file-earmark-excel"></i> Export</a>
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-file-earmark-spreadsheet"></i> Import</a>
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-bar-chart"></i> Rekap</a>
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-printer"></i> PDF</a>
+            <a class="btn-kib btn-kib-primary"><i class="bi bi-plus-lg"></i> Tambah</a>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div class="chart-card">
-            <div class="chart-header">
-              <div>
-                <div class="chart-title">Peminjaman Bulanan</div>
-                <div class="chart-subtitle">Jumlah transaksi peminjaman per bulan <span class="demo-tag">DEMO</span></div>
-              </div>
-              <div class="chart-legend">
-                <div class="dot" style="background:#facc15"></div> Peminjaman
-              </div>
+
+        <div class="stat-mini-row">
+          <div class="stat-mini"><div class="stat-mini-icon navy"><i class="bi bi-stack"></i></div><div><div class="stat-mini-label">Total Jenis</div><div class="stat-mini-value">8</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon green"><i class="bi bi-check-circle"></i></div><div><div class="stat-mini-label">Kondisi Baik</div><div class="stat-mini-value">5</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon yellow"><i class="bi bi-tools"></i></div><div><div class="stat-mini-label">Perbaikan</div><div class="stat-mini-value">2</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon red"><i class="bi bi-x-circle"></i></div><div><div class="stat-mini-label">Rusak</div><div class="stat-mini-value">1</div></div></div>
+        </div>
+
+        <div class="toolbar-card">
+          <div class="toolbar-row">
+            <div class="search-wrap">
+              <i class="bi bi-search"></i>
+              <input type="text" class="search-input" placeholder="Cari kode, nama, kondisi..." onkeyup="filterTable(this, 'tableB')">
             </div>
-            <div class="chart-canvas-wrap"><canvas id="peminjamanChart"></canvas></div>
+            <select class="filter-select">
+              <option value="">Semua Gedung</option>
+              <option>Gedung Utama</option>
+              <option>Gedung Bengkel</option>
+              <option>Gedung Perpustakaan</option>
+            </select>
+            <a class="btn-kib btn-kib-primary"><i class="bi bi-funnel"></i> Filter</a>
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-arrow-clockwise"></i> Reset</a>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-card-info">Menampilkan 5 dari 8 data &mdash; Halaman 1 <span class="demo-tag">DEMO</span></div>
+          <div class="table-responsive-wrap">
+            <table class="table-clean" id="tableB">
+              <thead><tr>
+                <th>Kode</th><th>Nama</th><th>Lokasi (Gedung - Ruangan)</th><th>Jumlah</th><th>Kondisi</th><th>Tahun</th><th style="text-align:center;">Foto</th><th style="text-align:center;">Aksi</th>
+              </tr></thead>
+              <tbody>
+                <tr><td>B.001</td><td>Proyektor Epson</td><td>Gedung Utama - R. Kelas 12</td><td>2</td><td><span class="badge-k badge-baik">Baik</span></td><td>2021</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-image"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>B.002</td><td>Mikroskop</td><td>Gedung Utama - Lab IPA</td><td>10</td><td><span class="badge-k badge-baik">Baik</span></td><td>2020</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-image"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>B.003</td><td>Kursi Susun</td><td>Gedung Bengkel - R. Bengkel 1</td><td>40</td><td><span class="badge-k badge-perbaikan">Perbaikan</span></td><td>2018</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-image"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>B.004</td><td>Printer Canon</td><td>Gedung Utama - R. TU</td><td>3</td><td><span class="badge-k badge-rusak">Rusak</span></td><td>2019</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-image"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>B.005</td><td>Speaker Aktif</td><td>Gedung Perpustakaan - Aula</td><td>4</td><td><span class="badge-k badge-baik">Baik</span></td><td>2022</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-image"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination-wrap">
+            <div class="pagination-info">Halaman 1 dari 2 &mdash; 5 per halaman <span class="demo-tag">DEMO</span></div>
+            <div class="pagination-btns">
+              <button class="pag-btn" disabled>&laquo;</button>
+              <button class="pag-btn active">1</button>
+              <button class="pag-btn">2</button>
+              <button class="pag-btn">&raquo;</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- TABLE -->
-      <div class="section-header">
-        <div class="section-title">Aktivitas Peminjaman Terbaru</div>
-        <a class="section-link">Lihat Semua &rarr;</a>
-      </div>
-
-      <div class="table-card mb-4">
-        <div class="table-card-header">
-          <div style="font-size:14px;font-weight:700;color:var(--navy-900);">
-            Peminjaman Peralatan
-            <span class="demo-tag">DEMO</span>
+      <!-- ===================== KIB C - GEDUNG ===================== -->
+      <div class="kib-page" id="page-C">
+        <div class="page-header">
+          <div class="page-header-left">
+            <div class="page-header-icon" style="background:var(--navy-100);color:var(--navy-700);"><i class="bi bi-building"></i></div>
+            <div>
+              <div class="page-header-title">KIB C &mdash; Gedung &amp; Bangunan <span class="demo-tag">DEMO</span></div>
+              <div class="page-header-sub">Manajemen data gedung dan bangunan sekolah</div>
+            </div>
           </div>
-          <a class="section-link">Kelola Peminjaman &rarr;</a>
+          <div class="page-header-actions">
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-printer"></i> Cetak PDF</a>
+            <a class="btn-kib btn-kib-primary"><i class="bi bi-plus-lg"></i> Tambah Gedung</a>
+          </div>
         </div>
-        <div class="table-card-info" style="padding:10px 24px;font-size:12px;color:var(--slate-500);border-bottom:1px solid var(--slate-100);">
-          Menampilkan 5 data terbaru <span class="demo-tag">DEMO</span>
+
+        <div class="stat-mini-row">
+          <div class="stat-mini"><div class="stat-mini-icon navy"><i class="bi bi-building"></i></div><div><div class="stat-mini-label">Total Gedung</div><div class="stat-mini-value">4</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon green"><i class="bi bi-check-circle"></i></div><div><div class="stat-mini-label">Kondisi Baik</div><div class="stat-mini-value">3</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon yellow"><i class="bi bi-tools"></i></div><div><div class="stat-mini-label">Perbaikan</div><div class="stat-mini-value">1</div></div></div>
         </div>
-        <div class="table-responsive-wrap">
-          <table class="table-clean">
-            <thead>
-              <tr>
-                <th>Peminjam</th>
-                <th>Barang</th>
-                <th>Jumlah</th>
-                <th>Tgl. Pinjam</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Budi Santoso</td>
-                <td>Proyektor Epson</td>
-                <td>1</td>
-                <td>14 Okt 2026</td>
-                <td><span class="badge badge-dipinjam">Dipinjam</span></td>
-              </tr>
-              <tr>
-                <td>Siti Aminah</td>
-                <td>Mikroskop</td>
-                <td>2</td>
-                <td>12 Okt 2026</td>
-                <td><span class="badge badge-dipinjam">Dipinjam</span></td>
-              </tr>
-              <tr>
-                <td>Ahmad Fauzi</td>
-                <td>Kursi Susun</td>
-                <td>10</td>
-                <td>10 Okt 2026</td>
-                <td><span class="badge badge-dipinjam">Dipinjam</span></td>
-              </tr>
-              <tr>
-                <td>Dewi Lestari</td>
-                <td>Printer Canon</td>
-                <td>1</td>
-                <td>08 Okt 2026</td>
-                <td><span class="badge badge-kembali">Kembali</span></td>
-              </tr>
-              <tr>
-                <td>Rudi Hartono</td>
-                <td>Speaker Aktif</td>
-                <td>2</td>
-                <td>05 Okt 2026</td>
-                <td><span class="badge badge-kembali">Kembali</span></td>
-              </tr>
-            </tbody>
-          </table>
+
+        <div class="toolbar-card">
+          <div class="toolbar-row">
+            <div class="search-wrap">
+              <i class="bi bi-search"></i>
+              <input type="text" class="search-input" placeholder="Cari kode, nama, lokasi, atau kondisi gedung..." onkeyup="filterTable(this, 'tableC')">
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-card-info">Menampilkan 4 data <span class="demo-tag">DEMO</span></div>
+          <div class="table-responsive-wrap">
+            <table class="table-clean" id="tableC">
+              <thead><tr>
+                <th>Kode</th><th>Nama Gedung</th><th>Lokasi</th><th>Luas (m&sup2;)</th><th>Kondisi</th><th>Tahun</th><th style="text-align:center;">Aksi</th>
+              </tr></thead>
+              <tbody>
+                <tr><td>C.001</td><td>Gedung Utama Belajar</td><td>Lubuklinggau</td><td>1200</td><td><span class="badge-k badge-baik">Baik</span></td><td>2010</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>C.002</td><td>Gedung Bengkel TKR</td><td>Lubuklinggau</td><td>800</td><td><span class="badge-k badge-baik">Baik</span></td><td>2012</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>C.003</td><td>Gedung Perpustakaan</td><td>Lubuklinggau</td><td>350</td><td><span class="badge-k badge-baik">Baik</span></td><td>2015</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>C.004</td><td>Gedung Kantor Lama</td><td>Lubuklinggau</td><td>200</td><td><span class="badge-k badge-perbaikan">Perbaikan</span></td><td>2005</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination-wrap">
+            <div class="pagination-info">Total 4 data <span class="demo-tag">DEMO</span></div>
+            <div class="pagination-btns">
+              <button class="pag-btn" disabled>&laquo;</button>
+              <button class="pag-btn active">1</button>
+              <button class="pag-btn" disabled>&raquo;</button>
+            </div>
+          </div>
         </div>
       </div>
 
-    </div>
+      <!-- ===================== KIB D - JALAN ===================== -->
+      <div class="kib-page" id="page-D">
+        <div class="page-header">
+          <div class="page-header-left">
+            <div class="page-header-icon" style="background:var(--navy-100);color:var(--navy-700);"><i class="bi bi-signpost-2"></i></div>
+            <div>
+              <div class="page-header-title">KIB D &mdash; Jalan / Irigasi / Jaringan <span class="demo-tag">DEMO</span></div>
+              <div class="page-header-sub">Manajemen data jalan, irigasi, dan jaringan sekolah</div>
+            </div>
+          </div>
+          <div class="page-header-actions">
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-printer"></i> Cetak PDF</a>
+            <a class="btn-kib btn-kib-primary"><i class="bi bi-plus-lg"></i> Tambah Jalan</a>
+          </div>
+        </div>
 
-    <!-- FOOTER -->
+        <div class="stat-mini-row">
+          <div class="stat-mini"><div class="stat-mini-icon navy"><i class="bi bi-signpost-2"></i></div><div><div class="stat-mini-label">Total Jalan</div><div class="stat-mini-value">3</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon green"><i class="bi bi-check-circle"></i></div><div><div class="stat-mini-label">Kondisi Baik</div><div class="stat-mini-value">2</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon yellow"><i class="bi bi-tools"></i></div><div><div class="stat-mini-label">Perbaikan</div><div class="stat-mini-value">1</div></div></div>
+        </div>
+
+        <div class="toolbar-card">
+          <div class="toolbar-row">
+            <div class="search-wrap">
+              <i class="bi bi-search"></i>
+              <input type="text" class="search-input" placeholder="Cari kode, nama, lokasi, kondisi..." onkeyup="filterTable(this, 'tableD')">
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-card-info">Menampilkan 3 data <span class="demo-tag">DEMO</span></div>
+          <div class="table-responsive-wrap">
+            <table class="table-clean" id="tableD">
+              <thead><tr>
+                <th>Kode</th><th>Nama</th><th>Panjang (m)</th><th>Lokasi</th><th>Kondisi</th><th>Tahun</th><th style="text-align:center;">Aksi</th>
+              </tr></thead>
+              <tbody>
+                <tr><td>D.001</td><td>Jalan Asrama Depan</td><td>150</td><td>Lubuklinggau</td><td><span class="badge-k badge-baik">Baik</span></td><td>2014</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>D.002</td><td>Drainase Parkir</td><td>80</td><td>Lubuklinggau</td><td><span class="badge-k badge-baik">Baik</span></td><td>2016</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>D.003</td><td>Jalan Belakang Bengkel</td><td>60</td><td>Lubuklinggau</td><td><span class="badge-k badge-perbaikan">Perbaikan</span></td><td>2010</td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination-wrap">
+            <div class="pagination-info">Total 3 data <span class="demo-tag">DEMO</span></div>
+            <div class="pagination-btns">
+              <button class="pag-btn" disabled>&laquo;</button>
+              <button class="pag-btn active">1</button>
+              <button class="pag-btn" disabled>&raquo;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== KIB E - BUKU ===================== -->
+      <div class="kib-page" id="page-E">
+        <div class="page-header">
+          <div class="page-header-left">
+            <div class="page-header-icon" style="background:var(--navy-100);color:var(--navy-700);"><i class="bi bi-book"></i></div>
+            <div>
+              <div class="page-header-title">KIB E &mdash; Buku <span class="demo-tag">DEMO</span></div>
+              <div class="page-header-sub">Manajemen data buku &amp; bahan pustaka sekolah</div>
+            </div>
+          </div>
+          <div class="page-header-actions">
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-file-earmark-excel"></i> Export</a>
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-file-earmark-spreadsheet"></i> Import</a>
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-bar-chart"></i> Rekap</a>
+            <a class="btn-kib btn-kib-outline"><i class="bi bi-printer"></i> PDF</a>
+            <a class="btn-kib btn-kib-primary"><i class="bi bi-plus-lg"></i> Tambah Buku</a>
+          </div>
+        </div>
+
+        <div class="stat-mini-row">
+          <div class="stat-mini"><div class="stat-mini-icon navy"><i class="bi bi-book"></i></div><div><div class="stat-mini-label">Total Judul</div><div class="stat-mini-value">6</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon green"><i class="bi bi-check-circle"></i></div><div><div class="stat-mini-label">Kondisi Baik</div><div class="stat-mini-value">4</div></div></div>
+          <div class="stat-mini"><div class="stat-mini-icon yellow"><i class="bi bi-tools"></i></div><div><div class="stat-mini-label">Perbaikan</div><div class="stat-mini-value">2</div></div></div>
+        </div>
+
+        <div class="toolbar-card">
+          <div class="toolbar-row">
+            <div class="search-wrap">
+              <i class="bi bi-search"></i>
+              <input type="text" class="search-input" placeholder="Cari judul, kode, atau pengarang..." onkeyup="filterTable(this, 'tableE')">
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-card-info">Menampilkan 6 data <span class="demo-tag">DEMO</span></div>
+          <div class="table-responsive-wrap">
+            <table class="table-clean" id="tableE">
+              <thead><tr>
+                <th>Kode</th><th>Judul</th><th>Pengarang</th><th>Jumlah</th><th>Kondisi</th><th>Tahun</th><th style="text-align:center;">Cover</th><th style="text-align:center;">Aksi</th>
+              </tr></thead>
+              <tbody>
+                <tr><td>E.001</td><td>Matematika SMA Kelas XII</td><td>Tim Penyusun</td><td>30</td><td><span class="badge-k badge-baik">Baik</span></td><td>2020</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-book"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>E.002</td><td>Fisika Dasar</td><td>Yohanes Surya</td><td>15</td><td><span class="badge-k badge-baik">Baik</span></td><td>2019</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-book"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>E.003</td><td>Kimia untuk SMK</td><td>Endang Sastrawijaya</td><td>20</td><td><span class="badge-k badge-perbaikan">Perbaikan</span></td><td>2018</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-book"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>E.004</td><td>Bahasa Indonesia Buku Kurikulum</td><td>Depdikbud</td><td>25</td><td><span class="badge-k badge-baik">Baik</span></td><td>2021</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-book"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>E.005</td><td>Sejarah Indonesia</td><td>M.C. Ricklefs</td><td>10</td><td><span class="badge-k badge-perbaikan">Perbaikan</span></td><td>2017</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-book"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+                <tr><td>E.006</td><td>Biologi Marthen</td><td>Kimball</td><td>18</td><td><span class="badge-k badge-baik">Baik</span></td><td>2022</td><td style="text-align:center;"><div class="img-placeholder"><i class="bi bi-book"></i></div></td><td class="action-icons"><a class="action-icon edit"><i class="bi bi-pencil"></i></a><a class="action-icon delete"><i class="bi bi-trash"></i></a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination-wrap">
+            <div class="pagination-info">Total 6 data <span class="demo-tag">DEMO</span></div>
+            <div class="pagination-btns">
+              <button class="pag-btn" disabled>&laquo;</button>
+              <button class="pag-btn active">1</button>
+              <button class="pag-btn" disabled>&raquo;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
     <div class="footer">
       &copy; 2026 Sistem Sarana &amp; Prasarana Sekolah &mdash; Dibuat oleh <strong>Zulkhaidir</strong>
     </div>
@@ -865,110 +816,42 @@ body {
 </div><!-- /layout -->
 
 <script>
-// Toggle sidebar
+// Sidebar toggle
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const toggleBtn = document.getElementById('toggleBtn');
-toggleBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('show');
-  overlay.classList.toggle('show');
-});
-overlay.addEventListener('click', () => {
-  sidebar.classList.remove('show');
-  overlay.classList.remove('show');
-});
+toggleBtn.addEventListener('click', () => { sidebar.classList.toggle('show'); overlay.classList.toggle('show'); });
+overlay.addEventListener('click', () => { sidebar.classList.remove('show'); overlay.classList.remove('show'); });
 
-// Charts with DEMO data
-const asetLabels = ['2021','2022','2023','2024','2025','2026'];
-const asetData   = [5, 8, 12, 15, 20, 25];
+// KIB tab switching
+const kibTitles = {
+  'A': { title: 'Inventaris KIB A &mdash; Tanah', sub: 'Daftar data tanah sekolah' },
+  'B': { title: 'Inventaris KIB B &mdash; Peralatan', sub: 'Daftar data peralatan dan mesin sekolah' },
+  'C': { title: 'Inventaris KIB C &mdash; Gedung', sub: 'Daftar data gedung dan bangunan sekolah' },
+  'D': { title: 'Inventaris KIB D &mdash; Jalan', sub: 'Daftar data jalan, irigasi, dan jaringan' },
+  'E': { title: 'Inventaris KIB E &mdash; Buku', sub: 'Daftar data buku dan bahan pustaka' },
+};
 
-const pinjamLabels = ['Mei','Jun','Jul','Agu','Sep','Okt'];
-const pinjamData   = [2, 4, 3, 6, 5, 8];
+function switchKib(kib) {
+  document.querySelectorAll('.kib-tab').forEach(t => t.classList.toggle('active', t.dataset.kib === kib));
+  document.querySelectorAll('.kib-nav').forEach(t => t.classList.toggle('active', t.dataset.kib === kib));
+  document.querySelectorAll('.kib-page').forEach(p => p.classList.toggle('active', p.id === 'page-' + kib));
+  document.getElementById('topbarTitle').innerHTML = kibTitles[kib].title;
+  document.querySelector('.topbar-subtitle').innerHTML = kibTitles[kib].sub;
+}
 
-new Chart(document.getElementById('asetChart'), {
-  type: 'bar',
-  data: {
-    labels: asetLabels,
-    datasets: [{
-      label: 'Peralatan',
-      data: asetData,
-      backgroundColor: '#0c4a6e',
-      borderRadius: 6,
-      maxBarThickness: 40
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: '#082f49',
-        padding: 10,
-        cornerRadius: 8,
-        titleFont: { size: 12 },
-        bodyFont: { size: 13 }
-      }
-    },
-    scales: {
-      x: {
-        grid: { display: false },
-        ticks: { color: '#64748b', font: { size: 11 } }
-      },
-      y: {
-        beginAtZero: true,
-        grid: { color: '#f1f5f9' },
-        ticks: { color: '#64748b', font: { size: 11 } }
-      }
-    }
-  }
-});
+document.querySelectorAll('.kib-tab').forEach(tab => tab.addEventListener('click', () => switchKib(tab.dataset.kib)));
+document.querySelectorAll('.kib-nav').forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); switchKib(link.dataset.kib); }));
 
-new Chart(document.getElementById('peminjamanChart'), {
-  type: 'line',
-  data: {
-    labels: pinjamLabels,
-    datasets: [{
-      label: 'Peminjaman',
-      data: pinjamData,
-      borderColor: '#facc15',
-      backgroundColor: 'rgba(250,204,21,0.12)',
-      fill: true,
-      tension: 0.4,
-      borderWidth: 2.5,
-      pointBackgroundColor: '#facc15',
-      pointBorderColor: '#082f49',
-      pointBorderWidth: 2,
-      pointRadius: 5,
-      pointHoverRadius: 7
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: '#082f49',
-        padding: 10,
-        cornerRadius: 8,
-        titleFont: { size: 12 },
-        bodyFont: { size: 13 }
-      }
-    },
-    scales: {
-      x: {
-        grid: { display: false },
-        ticks: { color: '#64748b', font: { size: 11 } }
-      },
-      y: {
-        beginAtZero: true,
-        grid: { color: '#f1f5f9' },
-        ticks: { color: '#64748b', font: { size: 11 }, stepSize: 2 }
-      }
-    }
-  }
-});
+// Realtime table search
+function filterTable(input, tableId) {
+  const value = input.value.toLowerCase();
+  const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    row.style.display = text.includes(value) ? '' : 'none';
+  });
+}
 </script>
 
 </body>
