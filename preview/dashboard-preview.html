@@ -511,18 +511,25 @@ body {
     height: 100%;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .sidebar.show { transform: translateX(0); }
   .content { padding: 20px; }
   .topbar { padding: 12px 20px; }
   .topbar-school { display: none; }
+  .toggle-btn { display: flex; }
+}
+
+@media (min-width: 993px) {
+  .toggle-btn { display: none; }
 }
 
 @media (max-width: 768px) {
   .stat-card { padding: 16px; gap: 12px; }
   .stat-icon { width: 44px; height: 44px; font-size: 20px; }
   .stat-value { font-size: 22px; }
-  .chart-canvas-wrap { height: 200px; }
+  .chart-canvas-wrap { height: 220px; }
   .topbar-subtitle { display: none; }
   .quick-card { padding: 16px; }
 }
@@ -532,6 +539,8 @@ body {
   .content { padding: 14px; }
   .stat-card { flex-direction: column; text-align: center; align-items: center; }
   .stat-body { text-align: center; }
+  .stat-value { font-size: 20px; }
+  .stat-value .demo-tag { display: block; margin: 4px auto 0; }
 }
 </style>
 </head>
@@ -586,7 +595,7 @@ body {
     <!-- TOPBAR -->
     <div class="topbar">
       <div class="topbar-left">
-        <button class="toggle-btn" id="toggleBtn"><i class="bi bi-list"></i></button>
+        <button class="toggle-btn" id="toggleBtn" aria-label="Buka atau tutup menu navigasi"><i class="bi bi-list" aria-hidden="true"></i></button>
         <div>
           <div class="topbar-title">Dashboard</div>
           <div class="topbar-subtitle">Ringkasan Sarana &amp; Prasarana Sekolah</div>
@@ -670,7 +679,7 @@ body {
       </div>
 
       <div class="row g-3 mb-4">
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card">
             <div class="quick-icon"><i class="bi bi-map"></i></div>
             <div class="quick-title">KIB A</div>
@@ -678,7 +687,7 @@ body {
             <a href="#" class="quick-btn">Kelola</a>
           </div>
         </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card">
             <div class="quick-icon"><i class="bi bi-pc-display"></i></div>
             <div class="quick-title">KIB B</div>
@@ -686,7 +695,7 @@ body {
             <a href="#" class="quick-btn">Kelola</a>
           </div>
         </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card">
             <div class="quick-icon"><i class="bi bi-building"></i></div>
             <div class="quick-title">KIB C</div>
@@ -694,7 +703,7 @@ body {
             <a href="#" class="quick-btn">Kelola</a>
           </div>
         </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card">
             <div class="quick-icon"><i class="bi bi-signpost-2"></i></div>
             <div class="quick-title">KIB D</div>
@@ -702,7 +711,7 @@ body {
             <a href="#" class="quick-btn">Kelola</a>
           </div>
         </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card">
             <div class="quick-icon"><i class="bi bi-book"></i></div>
             <div class="quick-title">KIB E</div>
@@ -710,7 +719,7 @@ body {
             <a href="#" class="quick-btn">Kelola</a>
           </div>
         </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card">
             <div class="quick-icon"><i class="bi bi-box-seam"></i></div>
             <div class="quick-title">BHP</div>
@@ -718,7 +727,7 @@ body {
             <a href="#" class="quick-btn">Kelola</a>
           </div>
         </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card">
             <div class="quick-icon"><i class="bi bi-arrow-left-right"></i></div>
             <div class="quick-title">Peminjaman</div>
@@ -726,7 +735,7 @@ body {
             <a href="#" class="quick-btn">Kelola</a>
           </div>
         </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-md-3 col-lg-3 col-xl-3">
           <div class="quick-card highlight">
             <div class="quick-icon"><i class="bi bi-printer"></i></div>
             <div class="quick-title">Cetak KIB</div>
@@ -785,6 +794,9 @@ body {
             <span class="demo-tag">DEMO</span>
           </div>
           <a href="#" class="section-link">Kelola Peminjaman &rarr;</a>
+        </div>
+        <div class="table-card-info" style="padding:10px 24px;font-size:12px;color:var(--slate-500);border-bottom:1px solid var(--slate-100);">
+          Menampilkan 5 data terbaru <span class="demo-tag">DEMO</span>
         </div>
         <div class="table-responsive-wrap">
           <table class="table-clean">
