@@ -322,29 +322,37 @@ def peralatan_import(request):
         wb = openpyxl.load_workbook(file)
         sheet = wb.active
 
-        gagal = 0
+        gagal_kolom = 0
+        gagal_data = 0
+        berhasil = 0
 
         for row in sheet.iter_rows(min_row=2, values_only=True):
-            try:
-                if not row[0]:
-                    continue
+            if not row[0]:
+                continue
 
+            if len(row) < 5:
+                gagal_kolom += 1
+                continue
+
+            try:
                 PeralatanMesin.objects.create(
                     kode_barang=str(row[0]).strip(),
                     nama=str(row[1]).strip(),
-                    jumlah=int(float(row[2])) if row[2] else 0,                                    
-                    kondisi=str(row[4]).strip(),
+                    jumlah=int(float(row[2])) if row[2] else 0,
+                    kondisi=str(row[3]).strip(),
                     tahun_perolehan=int(float(row[4])) if row[4] else 0,
                 )
-
+                berhasil += 1
             except Exception:
-                gagal += 1
+                gagal_data += 1
                 continue
 
-        messages.success(
-            request,
-            f'Import selesai. Data gagal: {gagal}'
-        )
+        pesan = f'Import selesai. Berhasil: {berhasil}'
+        if gagal_kolom:
+            pesan += f', kolom tidak lengkap: {gagal_kolom} baris'
+        if gagal_data:
+            pesan += f', data tidak valid/duplikat: {gagal_data} baris'
+        messages.success(request, pesan)
         return redirect('peralatan_list')
 
     return render(request, 'sarpras/peralatan_import.html')
